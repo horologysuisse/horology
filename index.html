@@ -1787,6 +1787,7 @@
   <a class="logo" href="#"><span>H</span>OROLOGY</a>
   <nav>
     <a href="#collection">Collection</a>
+    <a href="javascript:void(0)" onclick="openCatalogue()" style="color:var(--gold);font-weight:400;">Catalogue</a>
     <a href="#atelier">Atelier du Bracelet</a>
     <a href="#avis">Avis clients</a>
     <a href="#contact">Nous contacter</a>
@@ -1849,6 +1850,9 @@
 
   <p class="mobile-menu-eyebrow">Navigation</p>
   <div class="mobile-menu-links">
+    <a class="mobile-menu-link" href="javascript:void(0)" onclick="closeMobileMenu();openCatalogue()" style="color:rgba(184,151,106,1);">
+      <span class="link-icon">📋</span> Catalogue
+    </a>
     <a class="mobile-menu-link" href="#collection" onclick="closeMobileMenu()">
       <span class="link-icon">⌚</span> Collection
     </a>
@@ -2781,6 +2785,213 @@
     </div>
   </div>
 </div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE CATALOGUE — OVERLAY PLEINE PAGE
+══════════════════════════════════════════════ -->
+<div id="catalogue-overlay" style="
+  display:none; position:fixed; inset:0; z-index:300;
+  background:var(--blanc); overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  animation: catalogueIn 0.45s cubic-bezier(0.16,1,0.3,1) forwards;
+">
+
+  <!-- Header catalogue -->
+  <div id="catalogue-header" style="
+    position:sticky; top:0; z-index:10;
+    background:rgba(250,250,248,0.97); backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(184,151,106,0.2);
+    padding:0 4rem;
+    height:72px;
+    display:flex; align-items:center; justify-content:space-between;
+  ">
+    <div style="display:flex;align-items:center;gap:2rem;">
+      <button onclick="closeCatalogue()" style="
+        background:none; border:none; cursor:pointer;
+        display:flex; align-items:center; gap:0.6rem;
+        font-family:'Jost',sans-serif; font-size:0.7rem;
+        letter-spacing:0.18em; text-transform:uppercase;
+        color:var(--gris-mid); transition:color 0.3s; padding:0;
+      " onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--gris-mid)'">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        Retour
+      </button>
+      <span style="width:1px;height:20px;background:rgba(184,151,106,0.25);"></span>
+      <a class="logo" href="javascript:void(0)" onclick="closeCatalogue()" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;letter-spacing:0.35em;color:var(--noir);text-decoration:none;"><span style="color:var(--gold)">H</span>OROLOGY</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+      <span style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);" id="cat-count-label">— pièces</span>
+      <button class="cart-btn" onclick="openCart()" style="position:relative;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count" id="cart-count-cat">0</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Hero catalogue -->
+  <div style="
+    padding:5rem 4rem 3.5rem;
+    background:var(--noir);
+    position:relative; overflow:hidden;
+  ">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%, rgba(184,151,106,0.12) 0%,transparent 60%),radial-gradient(ellipse at 80% 30%, rgba(184,151,106,0.07) 0%,transparent 50%);pointer-events:none;"></div>
+    <div style="max-width:1200px;margin:0 auto;position:relative;z-index:1;">
+      <p style="font-size:0.62rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;opacity:0.85;">Catalogue Complet</p>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:300;color:white;line-height:1.05;margin-bottom:1.5rem;">
+        Tous nos modèles<br><em style="font-style:italic;color:var(--gold-light);">disponibles</em>
+      </h1>
+      <p style="font-size:0.88rem;color:rgba(255,255,255,0.45);line-height:1.8;max-width:560px;">
+        Découvrez l'intégralité de notre sélection horlogère. Chaque pièce est soigneusement choisie pour son excellence et son caractère unique.
+      </p>
+
+      <!-- Filtres par marque -->
+      <div id="cat-filters" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:2.5rem;"></div>
+    </div>
+  </div>
+
+  <!-- Barre de recherche -->
+  <div style="background:var(--beige);border-bottom:1px solid var(--beige-dark);padding:1.25rem 4rem;">
+    <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:1rem;">
+      <div style="flex:1;display:flex;align-items:center;gap:0.75rem;background:white;border:1px solid var(--beige-dark);padding:11px 16px;transition:border-color 0.2s;" id="cat-search-wrap" onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--beige-dark)'">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input
+          id="cat-search-input"
+          type="text"
+          placeholder="Rechercher un modèle, une marque…"
+          oninput="filterCatalogue()"
+          style="border:none;outline:none;font-family:'Jost',sans-serif;font-size:0.85rem;color:var(--noir);background:transparent;width:100%;letter-spacing:0.04em;"
+        >
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <label style="font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);">Trier :</label>
+        <select id="cat-sort" onchange="filterCatalogue()" style="
+          padding:10px 14px;border:1px solid var(--beige-dark);background:white;
+          font-family:'Jost',sans-serif;font-size:0.78rem;color:var(--noir);
+          outline:none;cursor:pointer;appearance:none;
+          letter-spacing:0.05em;min-width:160px;
+        ">
+          <option value="default">Par défaut</option>
+          <option value="price-asc">Prix croissant</option>
+          <option value="price-desc">Prix décroissant</option>
+          <option value="name-asc">Nom A → Z</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grille des montres -->
+  <div style="padding:3.5rem 4rem 6rem;max-width:1200px;margin:0 auto;">
+    <div id="cat-grid" style="
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+      gap:2.5rem;
+    "></div>
+    <div id="cat-empty" style="display:none;text-align:center;padding:5rem 1rem;">
+      <p style="font-size:2.5rem;margin-bottom:1rem;opacity:0.3;">⌚</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--text-muted);">Aucune montre trouvée</p>
+      <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">Essayez un autre filtre ou terme de recherche.</p>
+    </div>
+  </div>
+
+</div>
+
+<style>
+@keyframes catalogueIn {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+#catalogue-overlay .cat-watch-card {
+  background:white;
+  border:1px solid var(--beige-dark);
+  cursor:pointer;
+  transition:all 0.35s cubic-bezier(0.16,1,0.3,1);
+  position:relative; overflow:hidden;
+}
+#catalogue-overlay .cat-watch-card:hover {
+  transform:translateY(-6px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.1);
+  border-color:rgba(184,151,106,0.45);
+}
+#catalogue-overlay .cat-watch-card:hover .cat-img-zoom {
+  transform:scale(1.05);
+}
+.cat-img-wrap {
+  aspect-ratio:4/3;
+  overflow:hidden;
+  background:var(--beige);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.cat-img-zoom {
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 0.55s cubic-bezier(0.16,1,0.3,1);
+}
+.cat-placeholder {
+  font-size:3rem;color:var(--beige-dark);
+}
+.cat-card-badge {
+  position:absolute;top:1rem;left:1rem;
+  background:var(--noir);color:var(--gold-light);
+  font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;
+  padding:4px 12px;
+}
+.cat-card-body {
+  padding:1.5rem;
+}
+.cat-card-brand {
+  font-size:0.58rem;letter-spacing:0.28em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:0.35rem;
+}
+.cat-card-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem;font-weight:300;color:var(--noir);
+  margin-bottom:0.5rem;line-height:1.2;
+}
+.cat-card-desc {
+  font-size:0.78rem;color:var(--text-muted);line-height:1.65;
+  margin-bottom:1.25rem;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.cat-card-footer {
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:1rem;border-top:1px solid var(--beige-dark);
+}
+.cat-card-price {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:300;color:var(--noir);
+}
+.cat-btn-add {
+  padding:9px 18px;background:var(--noir);color:white;border:none;
+  font-family:'Jost',sans-serif;font-size:0.6rem;
+  letter-spacing:0.18em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.25s;
+}
+.cat-btn-add:hover { background:var(--gold-dark); }
+.cat-filter-btn {
+  padding:7px 18px;
+  border:1px solid rgba(184,151,106,0.3);
+  background:transparent;color:rgba(255,255,255,0.55);
+  font-family:'Jost',sans-serif;font-size:0.62rem;
+  letter-spacing:0.15em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.25s;
+}
+.cat-filter-btn:hover,
+.cat-filter-btn.active {
+  border-color:var(--gold);color:var(--gold);
+  background:rgba(184,151,106,0.08);
+}
+@media(max-width:768px){
+  #catalogue-header { padding:0 1.25rem !important; }
+  #catalogue-overlay > div:nth-child(2) { padding:3.5rem 1.5rem 2.5rem !important; }
+  #catalogue-overlay > div:nth-child(3) { padding:1rem 1.25rem !important; }
+  #catalogue-overlay > div:last-child { padding:2rem 1.25rem 4rem !important; }
+  #cat-grid { grid-template-columns:repeat(auto-fill,minmax(230px,1fr)) !important; gap:1.25rem !important; }
+  #cat-filters { gap:0.4rem !important; }
+  #cat-sort { display:none; }
+}
+</style>
 
 <script>
 const SB_URL = 'https://rucspyhxlybrgduypyzl.supabase.co';
@@ -4183,6 +4394,127 @@ function saveOrderAndPreviewWA() {
   }
   renderOrdersAdmin();
 }
+// ── CATALOGUE ──
+let catActiveBrand = 'all';
+
+function openCatalogue() {
+  const overlay = document.getElementById('catalogue-overlay');
+  overlay.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  // Sync cart count
+  const mainCount = document.getElementById('cart-count');
+  const catCount  = document.getElementById('cart-count-cat');
+  if (mainCount && catCount) catCount.textContent = mainCount.textContent;
+  // Render
+  catActiveBrand = 'all';
+  buildCatalogueFilters();
+  renderCatalogueGrid();
+}
+
+function closeCatalogue() {
+  const overlay = document.getElementById('catalogue-overlay');
+  overlay.style.animation = 'none';
+  overlay.style.opacity = '0';
+  overlay.style.transform = 'translateY(20px)';
+  overlay.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    overlay.style.opacity  = '';
+    overlay.style.transform = '';
+    overlay.style.transition = '';
+    overlay.style.animation = '';
+    document.body.style.overflow = '';
+  }, 300);
+}
+
+function buildCatalogueFilters() {
+  const container = document.getElementById('cat-filters');
+  if (!container) return;
+  // Unique brands
+  const brands = ['Tous', ...new Set(watches.map(w => w.brand).filter(Boolean))];
+  container.innerHTML = brands.map(b => {
+    const val = b === 'Tous' ? 'all' : b;
+    return `<button class="cat-filter-btn ${val === catActiveBrand ? 'active' : ''}"
+      onclick="setCatBrand('${val}')">${b}</button>`;
+  }).join('');
+}
+
+function setCatBrand(brand) {
+  catActiveBrand = brand;
+  document.getElementById('cat-search-input').value = '';
+  buildCatalogueFilters();
+  renderCatalogueGrid();
+}
+
+function filterCatalogue() {
+  renderCatalogueGrid();
+}
+
+function renderCatalogueGrid() {
+  const grid    = document.getElementById('cat-grid');
+  const empty   = document.getElementById('cat-empty');
+  const countLbl= document.getElementById('cat-count-label');
+  const search  = (document.getElementById('cat-search-input')?.value || '').toLowerCase().trim();
+  const sort    = document.getElementById('cat-sort')?.value || 'default';
+
+  if (!grid) return;
+
+  // Filter
+  let list = watches.filter(w => {
+    const matchBrand = catActiveBrand === 'all' || w.brand === catActiveBrand;
+    const matchSearch = !search ||
+      (w.brand||'').toLowerCase().includes(search) ||
+      (w.name ||'').toLowerCase().includes(search) ||
+      (w.desc ||'').toLowerCase().includes(search);
+    return matchBrand && matchSearch;
+  });
+
+  // Sort
+  if (sort === 'price-asc')  list = [...list].sort((a,b) => Number(a.price)-Number(b.price));
+  if (sort === 'price-desc') list = [...list].sort((a,b) => Number(b.price)-Number(a.price));
+  if (sort === 'name-asc')   list = [...list].sort((a,b) => (a.name||'').localeCompare(b.name||''));
+
+  countLbl.textContent = list.length + ' pièce' + (list.length !== 1 ? 's' : '');
+
+  if (list.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = list.map(w => {
+    const price = Number(w.price).toLocaleString('fr-FR') + ' €';
+    const imgHtml = w.img
+      ? `<img class="cat-img-zoom" src="${w.img}" alt="${w.brand} ${w.name}" loading="lazy">`
+      : `<div class="cat-placeholder">⌚</div>`;
+    const badgeHtml = w.badge
+      ? `<div class="cat-card-badge">${w.badge}</div>` : '';
+    return `
+      <div class="cat-watch-card" onclick="closeCatalogue();setTimeout(()=>openDetail('${w.id}'),320)">
+        <div class="cat-img-wrap">
+          ${imgHtml}
+          ${badgeHtml}
+        </div>
+        <div class="cat-card-body">
+          <p class="cat-card-brand">${w.brand || ''}</p>
+          <h3 class="cat-card-name">${w.name}</h3>
+          <p class="cat-card-desc">${w.desc || ''}</p>
+          <div class="cat-card-footer">
+            <span class="cat-card-price">${price}</span>
+            <button class="cat-btn-add" onclick="event.stopPropagation();addToCart('${w.id}')">+ Panier</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// Fermer avec Échap
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('catalogue-overlay')?.style.display === 'block') {
+    closeCatalogue();
+  }
+});
 </script>
 </body>
 </html>
