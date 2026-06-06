@@ -38,12 +38,26 @@
   /* ── HEADER ── */
   header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; flex-direction: column;
     padding: 0 4rem;
-    height: 72px;
     background: rgba(250,250,248,0.95);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(184,151,106,0.2);
+  }
+
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 42px;
+    border-bottom: 1px solid rgba(184,151,106,0.1);
+  }
+
+  .header-top-right {
+    display: flex; align-items: center; gap: 2rem;
+  }
+
+  .header-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 44px;
   }
 
   .logo {
@@ -66,6 +80,23 @@
     transition: color 0.3s;
   }
   nav a:hover { color: var(--gold); }
+
+  .nav-categories {
+    display: flex; gap: 2rem; align-items: center;
+  }
+  .nav-categories a {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gris-mid);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-categories a:hover { color: var(--gold); }
+
+  .nav-actions {
+    display: flex; gap: 0.75rem; align-items: center;
+  }
 
   /* ── HAMBURGER BUTTON ── */
   .hamburger {
@@ -1796,53 +1827,63 @@
 </div>
 
 
-  <a class="logo" href="#"><span>A</span>TELIER HORLOGER</a>
-  <nav>
-    <a href="javascript:void(0)" onclick="openBestSeller()" style="color:var(--gold);font-weight:400;">Best Sellers</a>
-    <a href="javascript:void(0)" onclick="openCatalogue()" style="color:var(--gold);font-weight:400;">Catalogue</a>
-    <a href="#avis">Avis clients</a>
-    <a href="#contact">Nous contacter</a>
-    <a href="#suivi" style="color:var(--gold)">📦 Suivi de colis</a>
-    <button class="cart-btn" onclick="openCart()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-      <span class="cart-count" id="cart-count">0</span>
-    </button>
-    <div class="account-wrapper" id="account-wrapper">
-      <button class="btn-client-account" id="btn-account" onclick="toggleAccountMenu()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-        <span id="btn-account-label">Mon compte</span>
+  <!-- Ligne du haut : logo + catégories -->
+  <div class="header-top">
+    <a class="logo" href="#"><span>A</span>TELIER HORLOGER</a>
+    <div class="header-top-right">
+      <nav class="nav-categories">
+        <a href="javascript:void(0)" onclick="openBestSeller()" style="color:var(--gold);font-weight:400;">Best Sellers</a>
+        <a href="javascript:void(0)" onclick="openCatalogue()" style="color:var(--gold);font-weight:400;">Catalogue</a>
+        <a href="#avis">Avis clients</a>
+        <a href="#contact">Nous contacter</a>
+        <a href="#suivi" style="color:var(--gold)">📦 Suivi de colis</a>
+      </nav>
+      <!-- Mobile: icones fixes + hamburger -->
+      <div class="nav-mobile-icons">
+        <button class="cart-btn" onclick="openCart()" style="padding:5px 9px;" id="mobile-cart-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-count" id="cart-count-m">0</span>
+        </button>
+        <button class="btn-client-account" onclick="toggleAccountMenu()" style="padding:5px 9px;font-size:0.58rem;letter-spacing:0.08em;" title="Mon compte">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </button>
+      </div>
+      <!-- Hamburger 3 traits -->
+      <button class="hamburger" id="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menu navigation">
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
-      <div class="account-dropdown" id="account-dropdown">
-        <div class="account-dropdown-header">
-          <div class="account-dropdown-name" id="dd-name"></div>
-          <div class="account-dropdown-email" id="dd-email"></div>
-          <div class="account-dropdown-tel" id="dd-tel"></div>
-        </div>
-        <div class="account-dropdown-actions">
-          <button class="account-dropdown-btn logout" onclick="logoutClient()">Se déconnecter</button>
+    </div>
+  </div>
+
+  <!-- Ligne du bas : actions (panier, compte, admin) -->
+  <div class="header-bottom">
+    <div></div>
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="openCart()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count" id="cart-count">0</span>
+      </button>
+      <div class="account-wrapper" id="account-wrapper">
+        <button class="btn-client-account" id="btn-account" onclick="toggleAccountMenu()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span id="btn-account-label">Mon compte</span>
+        </button>
+        <div class="account-dropdown" id="account-dropdown">
+          <div class="account-dropdown-header">
+            <div class="account-dropdown-name" id="dd-name"></div>
+            <div class="account-dropdown-email" id="dd-email"></div>
+            <div class="account-dropdown-tel" id="dd-tel"></div>
+          </div>
+          <div class="account-dropdown-actions">
+            <button class="account-dropdown-btn logout" onclick="logoutClient()">Se déconnecter</button>
+          </div>
         </div>
       </div>
+      <button class="btn-admin" onclick="openAdmin()">Gérer les montres</button>
     </div>
-    <button class="btn-admin" onclick="openAdmin()">Gérer les montres</button>
-
-    <!-- Mobile: icones fixes + hamburger -->
-    <div class="nav-mobile-icons">
-      <button class="cart-btn" onclick="openCart()" style="padding:5px 9px;" id="mobile-cart-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-        <span class="cart-count" id="cart-count-m">0</span>
-      </button>
-      <button class="btn-client-account" onclick="toggleAccountMenu()" style="padding:5px 9px;font-size:0.58rem;letter-spacing:0.08em;" title="Mon compte">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      </button>
-    </div>
-
-    <!-- Hamburger 3 traits -->
-    <button class="hamburger" id="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Menu navigation">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </nav>
+  </div>
 </header>
 
 <!-- Overlay sombre -->
@@ -6633,6 +6674,8 @@ function subscribeNewsletter() {
   fb.style.color = 'var(--gold)';
   showToast({ icon: '✉️', title: 'Newsletter', message: 'Inscription réussie ! Vous recevrez nos prochaines nouveautés en avant-première.', duration: 5000 });
   setTimeout(() => { fb.textContent = ''; }, 6000);
+
+
 }
 
 // ══════════════════════════════════════════════
