@@ -1780,8 +1780,13 @@
   @media (max-width: 768px) {
     header {
       padding: 0 1rem !important;
-      height: 60px !important;
     }
+
+    /* Cacher la ligne du bas sur mobile (panier + compte desktop) */
+    .header-bottom { display: none !important; }
+
+    /* Ligne du haut prend toute la hauteur */
+    .header-top { height: 60px !important; border-bottom: none !important; }
 
     /* Logo plus petit sur mobile */
     .logo {
@@ -1789,14 +1794,8 @@
       letter-spacing: 0.2em !important;
     }
 
-    /* Cacher tous les liens nav et le bouton admin sur mobile */
-    nav > a { display: none !important; }
-    nav > .btn-admin { display: none !important; }
-    nav > .account-wrapper { display: none !important; }
-    nav > .cart-btn { display: none !important; }
-
-    /* Nav compact sur mobile */
-    nav { gap: 0.4rem !important; }
+    /* Cacher les liens catégories sur mobile */
+    .nav-categories { display: none !important; }
 
     /* Afficher le hamburger et les icônes rapides */
     .hamburger { display: flex !important; }
@@ -1857,8 +1856,8 @@
     </div>
   </div>
 
-  <!-- Ligne du bas : actions (panier, compte, admin) -->
-  <div class="header-bottom">
+  <!-- Ligne du bas : actions (panier, compte, admin) — masquée sur mobile -->
+  <div class="header-bottom" id="header-bottom">
     <div></div>
     <div class="nav-actions">
       <button class="cart-btn" onclick="openCart()">
@@ -2847,8 +2846,8 @@
     <div class="contact-card">
       <div class="contact-card-icon">✉️</div>
       <p class="contact-card-label">Email</p>
-      <p class="contact-card-value">atelierhorloger@gmail.com</p>
-      <a class="btn-tel" href="mailto:atelierhorloger@gmail.com" style="display:inline-flex;align-items:center;gap:0.6rem;padding:12px 28px;background:transparent;color:var(--gold);text-decoration:none;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:400;border:1px solid var(--gold);transition:all 0.3s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--noir)'" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'">
+      <p class="contact-card-value">atelierhorloger.pros@gmail.com</p>
+      <a class="btn-tel" href="mailto:atelierhorloger.pros@gmail.com" style="display:inline-flex;align-items:center;gap:0.6rem;padding:12px 28px;background:transparent;color:var(--gold);text-decoration:none;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:400;border:1px solid var(--gold);transition:all 0.3s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--noir)'" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'">
         Nous écrire
       </a>
     </div>
@@ -3305,7 +3304,7 @@ footer {
     </div>
     <div class="legal-box-body">
       <h3>Éditeur du site</h3>
-      <p><strong>Atelier Horloger</strong><br>Société immatriculée en France<br>Siège social : France<br>Email : atelierhorloger@gmail.com</p>
+      <p><strong>Atelier Horloger</strong><br>Société immatriculée en France<br>Siège social : France<br>Email : atelierhorloger.pros@gmail.com</p>
       <h3>Activité</h3>
       <p>Atelier Horloger est une maison française spécialisée dans la création, la personnalisation et la vente de montres fabriquées en France. Chaque pièce est assemblée et contrôlée dans notre atelier par des artisans horlogers qualifiés.</p>
       <h3>Fabrication française</h3>
@@ -5790,7 +5789,7 @@ async function submitConfiguration() {
   `;
 
   try {
-    await emailjs.send('service_horology', 'template_composition', {
+    await emailjs.send('service_pol88z5', 'template_composition', {
       from_name: nom,
       from_email: email,
       composition: composition,
@@ -5798,21 +5797,14 @@ async function submitConfiguration() {
       telephone: tel || 'Non renseigné',
       reply_to: email
     });
-    // Show success
-    document.querySelector('.conf-layout').style.display = 'none';
-    document.querySelector('.conf-intro').style.display = 'none';
-    document.querySelector('.conf-steps-nav').style.display = 'none';
-    document.getElementById('conf-success').classList.add('active');
   } catch(err) {
-    // Fallback: show success anyway + mailto
-    const subject = encodeURIComponent('Atelier Horloger — Composition personnalisée de ' + nom);
-    const body = encodeURIComponent('Bonjour,\n\nVoici ma composition personnalisée :\n' + composition + '\n\nCordialement,\n' + nom);
-    window.open('mailto:atelierhorloger@gmail.com?subject=' + subject + '&body=' + body);
-    document.querySelector('.conf-layout').style.display = 'none';
-    document.querySelector('.conf-intro').style.display = 'none';
-    document.querySelector('.conf-steps-nav').style.display = 'none';
-    document.getElementById('conf-success').classList.add('active');
+    console.warn('EmailJS composition erreur:', err);
   }
+  // Afficher le succès dans tous les cas
+  document.querySelector('.conf-layout').style.display = 'none';
+  document.querySelector('.conf-intro').style.display = 'none';
+  document.querySelector('.conf-steps-nav').style.display = 'none';
+  document.getElementById('conf-success').classList.add('active');
 }
 
 function restartConfiguration() {
