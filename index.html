@@ -1783,12 +1783,23 @@
 </head>
 <body>
 
-<header>
+<!-- ── BANDEAU PROMOTIONNEL ── -->
+<div id="promo-banner" style="background:var(--noir);border-bottom:1px solid rgba(184,151,106,0.3);padding:0;overflow:hidden;position:relative;z-index:101;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;padding:10px 3rem;flex-wrap:wrap;">
+    <span style="font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.9);">
+      <span style="color:var(--gold);margin-right:0.5rem;">✦</span>
+      <span id="banner-text">Livraison offerte dès 200€ d'achat</span>
+      <span style="color:var(--gold);margin-left:0.5rem;">✦</span>
+    </span>
+    <button onclick="document.getElementById('promo-banner').style.display='none'" style="background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:0.9rem;padding:0;line-height:1;position:absolute;right:1.5rem;" title="Fermer">✕</button>
+  </div>
+</div>
+
+
   <a class="logo" href="#"><span>A</span>TELIER HORLOGER</a>
   <nav>
-    <a href="#collection">Collection</a>
+    <a href="javascript:void(0)" onclick="openBestSeller()" style="color:var(--gold);font-weight:400;">Best Sellers</a>
     <a href="javascript:void(0)" onclick="openCatalogue()" style="color:var(--gold);font-weight:400;">Catalogue</a>
-    <a href="#atelier">Atelier du Bracelet</a>
     <a href="#avis">Avis clients</a>
     <a href="#contact">Nous contacter</a>
     <a href="#suivi" style="color:var(--gold)">📦 Suivi de colis</a>
@@ -1816,10 +1827,6 @@
 
     <!-- Mobile: icones fixes + hamburger -->
     <div class="nav-mobile-icons">
-      <a href="#suivi" style="color:var(--gold);display:flex;align-items:center;padding:5px 8px;border:1px solid rgba(184,151,106,0.35);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;gap:4px;" onclick="closeMobileMenu()">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-        Suivi
-      </a>
       <button class="cart-btn" onclick="openCart()" style="padding:5px 9px;" id="mobile-cart-btn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="cart-count" id="cart-count-m">0</span>
@@ -1853,11 +1860,8 @@
     <a class="mobile-menu-link" href="javascript:void(0)" onclick="closeMobileMenu();openCatalogue()" style="color:rgba(184,151,106,1);">
       <span class="link-icon">📋</span> Catalogue
     </a>
-    <a class="mobile-menu-link" href="#collection" onclick="closeMobileMenu()">
-      <span class="link-icon">⌚</span> Collection
-    </a>
-    <a class="mobile-menu-link" href="#atelier" onclick="closeMobileMenu()">
-      <span class="link-icon">✦</span> Atelier du Bracelet
+    <a class="mobile-menu-link" href="javascript:void(0)" onclick="closeMobileMenu();openBestSeller()" style="color:rgba(184,151,106,1);">
+      <span class="link-icon">✦</span> Best Sellers
     </a>
     <a class="mobile-menu-link" href="#avis" onclick="closeMobileMenu()">
       <span class="link-icon">★</span> Avis clients
@@ -1886,7 +1890,7 @@
   <p class="hero-eyebrow">Maison de Montres d'Exception</p>
   <h1>L'art du temps<br><em>à votre poignet</em></h1>
   <p class="hero-sub">Chaque pièce, une histoire. Chaque instant, un chef-d'œuvre.</p>
-  <a href="#collection" class="hero-cta">Découvrir la collection</a>
+  <a href="javascript:void(0)" onclick="openBestSeller()" class="hero-cta">Découvrir la collection</a>
   <button class="hero-cta-configurateur" onclick="openConfigurateurOverlay()">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
     Créez votre montre
@@ -1998,6 +2002,58 @@
 @media (max-width: 900px) {
   .conf-layout { grid-template-columns: 1fr; }
   .conf-preview-col { order: -1; }
+}
+
+/* ── CONFIGURATEUR MOBILE ── */
+@media (max-width: 768px) {
+  #configurateur-overlay {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .conf-header {
+    padding: 0 1rem;
+    height: 56px;
+  }
+  .conf-logo { font-size: 1rem; letter-spacing: 0.2em; }
+  .conf-body {
+    padding: 1.5rem 1rem 4rem;
+  }
+  .conf-intro { margin-bottom: 2rem; }
+  .conf-title { font-size: 1.8rem; }
+  .conf-subtitle { font-size: 0.78rem; }
+  .conf-steps-nav {
+    margin-bottom: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .conf-step-tab { padding: 0.6rem 0.8rem; font-size: 0.55rem; }
+  .conf-layout { gap: 1.5rem; }
+  .conf-options {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .conf-option { padding: 1rem 0.75rem; }
+  .conf-option-emoji { font-size: 1.5rem; margin-bottom: 0.4rem; }
+  .conf-option-name { font-size: 0.68rem; }
+  .conf-option-desc { font-size: 0.58rem; }
+  .conf-toggle-row { padding: 0.9rem 1rem; }
+  .conf-gravure-box { padding: 1.25rem; }
+  .conf-gravure-box input,
+  .conf-gravure-box textarea {
+    font-size: 16px !important; /* empêche zoom iOS */
+  }
+  .conf-nav-btns { flex-wrap: wrap; }
+  .btn-conf-next, .btn-conf-submit { width: 100%; text-align: center; margin-left: 0; }
+  .btn-conf-prev { width: 100%; text-align: center; }
+  /* Preview SVG sur mobile */
+  .conf-preview-col {
+    position: static !important;
+    width: 100%;
+  }
+  #watch-svg-preview {
+    max-width: 200px;
+    margin: 0 auto;
+    display: block;
+  }
 }
 
 /* Options grid */
@@ -2750,8 +2806,8 @@
     <div class="contact-card">
       <div class="contact-card-icon">✉️</div>
       <p class="contact-card-label">Email</p>
-      <p class="contact-card-value">contact@atelierhorloger.fr</p>
-      <a class="btn-tel" href="mailto:contact@atelierhorloger.fr" style="display:inline-flex;align-items:center;gap:0.6rem;padding:12px 28px;background:transparent;color:var(--gold);text-decoration:none;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:400;border:1px solid var(--gold);transition:all 0.3s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--noir)'" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'">
+      <p class="contact-card-value">atelierhorloger@gmail.com</p>
+      <a class="btn-tel" href="mailto:atelierhorloger@gmail.com" style="display:inline-flex;align-items:center;gap:0.6rem;padding:12px 28px;background:transparent;color:var(--gold);text-decoration:none;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:400;border:1px solid var(--gold);transition:all 0.3s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--noir)'" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'">
         Nous écrire
       </a>
     </div>
@@ -3208,7 +3264,7 @@ footer {
     </div>
     <div class="legal-box-body">
       <h3>Éditeur du site</h3>
-      <p><strong>Atelier Horloger</strong><br>Société immatriculée en France<br>Siège social : France<br>Email : contact@atelierhorloger.fr</p>
+      <p><strong>Atelier Horloger</strong><br>Société immatriculée en France<br>Siège social : France<br>Email : atelierhorloger@gmail.com</p>
       <h3>Activité</h3>
       <p>Atelier Horloger est une maison française spécialisée dans la création, la personnalisation et la vente de montres fabriquées en France. Chaque pièce est assemblée et contrôlée dans notre atelier par des artisans horlogers qualifiés.</p>
       <h3>Fabrication française</h3>
@@ -3267,6 +3323,22 @@ footer {
   </div>
 </div>
 
+<div id="newsletter-anchor"></div>
+<section class="newsletter-section" id="newsletter">
+  <p class="newsletter-eyebrow">Restez informé</p>
+  <h2 class="newsletter-title">Nouvelles pièces,<br><em>en avant-première</em></h2>
+  <p class="newsletter-sub">Recevez en exclusivité nos nouvelles montres, offres privées et éditions limitées<br>directement dans votre boîte mail.</p>
+  <div class="newsletter-form">
+    <input class="newsletter-input" id="nl-email-input" type="email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')subscribeNewsletter()">
+    <button class="newsletter-btn" onclick="subscribeNewsletter()">S'inscrire</button>
+  </div>
+  <p class="newsletter-feedback" id="nl-feedback"></p>
+  <div class="newsletter-perks">
+    <span class="newsletter-perk"><span>✦</span> Nouveautés en exclusivité</span>
+    <span class="newsletter-perk"><span>✦</span> Offres réservées abonnés</span>
+    <span class="newsletter-perk"><span>✦</span> Sans publicité</span>
+  </div>
+</section>
 <footer>
   <div class="footer-main">
     <div class="footer-brand-col">
@@ -3300,6 +3372,8 @@ footer {
         <button onclick="openCatalogue()">Catalogue complet</button>
         <a href="#suivi">Suivi de commande</a>
         <a href="#contact">Nous contacter</a>
+        <a href="#newsletter">Newsletter</a>
+        <button onclick="openParrainage()">Parrainage — offrir 10%</button>
         <a href="#avis">Avis clients</a>
       </div>
     </div>
@@ -3673,7 +3747,10 @@ footer {
   <div class="admin-panel">
     <div class="admin-header">
       <h2 class="admin-title">Gérer la boutique</h2>
-      <button class="admin-close" onclick="closeAdmin()">✕</button>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <button onclick="openDashboard()" style="padding:7px 14px;background:var(--gold);color:var(--noir);border:none;font-family:'Jost',sans-serif;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:5px;">📊 Dashboard</button>
+        <button class="admin-close" onclick="closeAdmin()">✕</button>
+      </div>
     </div>
 
     <div class="admin-list" id="admin-list"></div>
@@ -5689,7 +5766,7 @@ async function submitConfiguration() {
     // Fallback: show success anyway + mailto
     const subject = encodeURIComponent('Atelier Horloger — Composition personnalisée de ' + nom);
     const body = encodeURIComponent('Bonjour,\n\nVoici ma composition personnalisée :\n' + composition + '\n\nCordialement,\n' + nom);
-    window.open('mailto:contact@horology.fr?subject=' + subject + '&body=' + body);
+    window.open('mailto:atelierhorloger@gmail.com?subject=' + subject + '&body=' + body);
     document.querySelector('.conf-layout').style.display = 'none';
     document.querySelector('.conf-intro').style.display = 'none';
     document.querySelector('.conf-steps-nav').style.display = 'none';
@@ -5940,5 +6017,823 @@ document.addEventListener('keydown', e => {
   }
 });
 </script>
+
+<!-- ══════════════════════════════════════════════
+     BEST SELLERS OVERLAY
+══════════════════════════════════════════════ -->
+<style>
+/* ── BEST SELLER OVERLAY ── */
+.bs-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 600;
+  background: rgba(5,5,5,0.97);
+  backdrop-filter: blur(18px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  animation: bsFadeIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+@keyframes bsFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.bs-overlay.active { display: block; }
+
+.bs-header {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(10,10,10,0.97); backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(184,151,106,0.2);
+  padding: 0 3rem; height: 70px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.bs-header-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 300; letter-spacing: 0.3em; color: white;
+}
+.bs-header-logo span { color: var(--gold); }
+.bs-close {
+  background: none; border: 1px solid rgba(184,151,106,0.3); color: rgba(255,255,255,0.5);
+  width: 40px; height: 40px; font-size: 1.1rem; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.bs-close:hover { border-color: var(--gold); color: white; }
+
+.bs-body {
+  max-width: 1100px; margin: 0 auto; padding: 4rem 2rem 6rem;
+}
+.bs-intro {
+  text-align: center; margin-bottom: 4rem;
+}
+.bs-eyebrow {
+  font-size: 0.6rem; letter-spacing: 0.5em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.75rem;
+}
+.bs-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem; font-weight: 300; color: white; line-height: 1.15;
+}
+.bs-title em { font-style: italic; color: var(--gold-light); }
+.bs-subtitle {
+  font-size: 0.82rem; color: rgba(255,255,255,0.35); margin-top: 0.75rem; line-height: 1.8;
+}
+
+/* Séparateur doré */
+.bs-divider {
+  width: 60px; height: 1px;
+  background: var(--gold); margin: 1.5rem auto 0;
+  opacity: 0.5;
+}
+
+/* Grille Best Sellers */
+.bs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+.bs-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(184,151,106,0.15);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+}
+.bs-card:hover {
+  border-color: rgba(184,151,106,0.5);
+  transform: translateY(-6px);
+  background: rgba(184,151,106,0.04);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+/* Badge numéro */
+.bs-rank {
+  position: absolute; top: 1rem; left: 1rem; z-index: 2;
+  background: var(--gold); color: var(--noir);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.75rem; font-weight: 400; letter-spacing: 0.1em;
+  padding: 4px 12px;
+}
+
+/* Image / placeholder */
+.bs-img-wrap {
+  width: 100%; aspect-ratio: 1;
+  background: rgba(255,255,255,0.03);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem;
+  overflow: hidden; position: relative;
+}
+.bs-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.bs-card:hover .bs-img-wrap img { transform: scale(1.04); }
+
+/* Ligne dorée en bas d'image */
+.bs-img-wrap::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0; transition: opacity 0.4s;
+}
+.bs-card:hover .bs-img-wrap::after { opacity: 1; }
+
+.bs-info {
+  padding: 1.75rem 1.5rem;
+}
+.bs-brand {
+  font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.4rem;
+}
+.bs-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 300; color: white;
+  line-height: 1.15; margin-bottom: 0.6rem;
+}
+.bs-desc {
+  font-size: 0.72rem; color: rgba(255,255,255,0.38);
+  line-height: 1.75; margin-bottom: 1.5rem;
+}
+.bs-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(184,151,106,0.12);
+}
+.bs-badge-sold {
+  font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(184,151,106,0.6);
+  display: flex; align-items: center; gap: 5px;
+}
+.bs-badge-sold::before {
+  content: '🔥';
+  font-size: 0.7rem;
+}
+.bs-btn {
+  padding: 10px 22px;
+  background: var(--gold); color: var(--noir); border: none;
+  font-family: 'Jost', sans-serif; font-size: 0.62rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  cursor: pointer; transition: background 0.25s;
+}
+.bs-btn:hover { background: var(--gold-light); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .bs-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .bs-title { font-size: 2.2rem; }
+  .bs-body { padding: 2.5rem 1rem 5rem; }
+  .bs-header { padding: 0 1.25rem; }
+  .bs-intro { margin-bottom: 2.5rem; }
+}
+@media (max-width: 480px) {
+  .bs-name { font-size: 1.35rem; }
+}
+</style>
+
+<div class="bs-overlay" id="bs-overlay">
+  <div class="bs-header">
+    <span class="bs-header-logo"><span>A</span>TELIER HORLOGER</span>
+    <button class="bs-close" onclick="closeBestSeller()">✕</button>
+  </div>
+  <div class="bs-body">
+    <div class="bs-intro">
+      <p class="bs-eyebrow">Nos incontournables</p>
+      <h2 class="bs-title">Best <em>Sellers</em></h2>
+      <p class="bs-subtitle">Les modèles les plus prisés de notre collection.<br>Des pièces d'exception choisies par des milliers de clients.</p>
+      <div class="bs-divider"></div>
+    </div>
+
+    <div class="bs-grid">
+
+      <!-- AQUANAUT -->
+      <div class="bs-card" onclick="closeBestSeller();setTimeout(()=>openModelOverlay('Aquanaut'),250)">
+        <div class="bs-rank">#1 Best Seller</div>
+        <div class="bs-img-wrap">⌚</div>
+        <div class="bs-info">
+          <p class="bs-brand">Patek Philippe</p>
+          <h3 class="bs-name">Aquanaut</h3>
+          <p class="bs-desc">L'icône sportive et contemporaine de Patek Philippe. Boîtier arrondi en acier poli-satiné, cadran gaufré signature et bracelet composite intégré. Une montre de sport de luxe intemporelle.</p>
+          <div class="bs-footer">
+            <span class="bs-badge-sold">Meilleure vente</span>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;">
+              <button class="bs-btn" onclick="event.stopPropagation();closeBestSeller();setTimeout(()=>openModelOverlay('Aquanaut'),250)" style="background:var(--gold);color:var(--noir);">Payer maintenant</button>
+              <button class="bs-btn" onclick="event.stopPropagation();closeBestSeller();setTimeout(()=>openModelOverlay('Aquanaut'),250)" style="background:transparent;color:var(--gold);border:1px solid rgba(184,151,106,0.5);">+ Ajouter au panier</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY-DATE -->
+      <div class="bs-card" onclick="closeBestSeller();setTimeout(()=>openModelOverlay('Day-Date'),250)">
+        <div class="bs-rank">#2 Best Seller</div>
+        <div class="bs-img-wrap">⌚</div>
+        <div class="bs-info">
+          <p class="bs-brand">Rolex</p>
+          <h3 class="bs-name">Day-Date</h3>
+          <p class="bs-desc">Le symbole ultime de prestige et de réussite. Surnommée la "montre des présidents", le Day-Date affiche le jour en toutes lettres et la date, dans un boîtier en or d'une élégance absolue.</p>
+          <div class="bs-footer">
+            <span class="bs-badge-sold">Très demandé</span>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;">
+              <button class="bs-btn" onclick="event.stopPropagation();closeBestSeller();setTimeout(()=>openModelOverlay('Day-Date'),250)" style="background:var(--gold);color:var(--noir);">Payer maintenant</button>
+              <button class="bs-btn" onclick="event.stopPropagation();closeBestSeller();setTimeout(()=>openModelOverlay('Day-Date'),250)" style="background:transparent;color:var(--gold);border:1px solid rgba(184,151,106,0.5);">+ Ajouter au panier</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROYAL OAK -->
+      <div class="bs-card" onclick="closeBestSeller();setTimeout(()=>openModelOverlay('Royal Oak'),250)">
+        <div class="bs-rank">#3 Best Seller</div>
+        <div class="bs-img-wrap">⌚</div>
+        <div class="bs-info">
+          <p class="bs-brand">Audemars Piguet</p>
+          <h3 class="bs-name">Royal Oak</h3>
+          <p class="bs-desc">L'œuvre maîtresse de Gerald Genta, révolutionnaire depuis 1972. Son boîtier octogonal aux vis apparentes, son cadran "Grande Tapisserie" et son bracelet intégré en font une icône du luxe sport.</p>
+          <div class="bs-footer">
+            <span class="bs-badge-sold">Coup de cœur</span>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;">
+              <button class="bs-btn" onclick="event.stopPropagation();closeBestSeller();setTimeout(()=>openModelOverlay('Royal Oak'),250)" style="background:var(--gold);color:var(--noir);">Payer maintenant</button>
+              <button class="bs-btn" onclick="event.stopPropagation();closeBestSeller();setTimeout(()=>openModelOverlay('Royal Oak'),250)" style="background:transparent;color:var(--gold);border:1px solid rgba(184,151,106,0.5);">+ Ajouter au panier</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function openBestSeller() {
+  document.getElementById('bs-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeBestSeller() {
+  document.getElementById('bs-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('bs-overlay')?.classList.contains('active')) {
+    closeBestSeller();
+  }
+});
+</script>
+
+
+<!-- ══════════════════════════════════════════════
+     NEWSLETTER OVERLAY
+══════════════════════════════════════════════ -->
+<style>
+/* ── NOTIFICATION TOAST ── */
+.notif-toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+  background: var(--noir); border: 1px solid rgba(184,151,106,0.4);
+  padding: 1.1rem 1.5rem; max-width: 340px; min-width: 280px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  animation: toastIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+  display: flex; align-items: flex-start; gap: 0.9rem;
+}
+.notif-toast.hide { animation: toastOut 0.3s ease forwards; }
+@keyframes toastIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+@keyframes toastOut { to { opacity:0; transform:translateY(20px); } }
+.notif-toast-icon { font-size: 1.4rem; flex-shrink:0; margin-top:2px; }
+.notif-toast-body { flex:1; }
+.notif-toast-title { font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:0.2rem; }
+.notif-toast-msg { font-size:0.8rem; color:rgba(255,255,255,0.8); line-height:1.5; }
+.notif-toast-close { background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:0.9rem;line-height:1;flex-shrink:0; }
+.notif-toast-close:hover { color:white; }
+@media (max-width:768px) {
+  .notif-toast { bottom:1rem; right:1rem; left:1rem; max-width:100%; }
+}
+
+/* ── NEWSLETTER SECTION (dans footer ou standalone) ── */
+.newsletter-section {
+  background: linear-gradient(135deg, var(--noir) 0%, #1a1408 100%);
+  padding: 5rem 4rem;
+  border-top: 1px solid rgba(184,151,106,0.15);
+  border-bottom: 1px solid rgba(184,151,106,0.15);
+  text-align: center;
+}
+.newsletter-eyebrow { font-size:0.6rem; letter-spacing:0.45em; text-transform:uppercase; color:var(--gold); margin-bottom:0.75rem; }
+.newsletter-title { font-family:'Cormorant Garamond',serif; font-size:2.4rem; font-weight:300; color:white; line-height:1.15; margin-bottom:0.6rem; }
+.newsletter-title em { font-style:italic; color:var(--gold-light); }
+.newsletter-sub { font-size:0.8rem; color:rgba(255,255,255,0.38); margin-bottom:2.5rem; line-height:1.7; }
+.newsletter-form { display:flex; gap:0; max-width:500px; margin:0 auto 1rem; }
+.newsletter-input {
+  flex:1; padding:14px 18px;
+  background:rgba(255,255,255,0.06); border:1px solid rgba(184,151,106,0.3); border-right:none;
+  color:white; font-family:'Jost',sans-serif; font-size:0.85rem;
+  outline:none; transition:border-color 0.2s;
+}
+.newsletter-input::placeholder { color:rgba(255,255,255,0.3); }
+.newsletter-input:focus { border-color:var(--gold); }
+.newsletter-btn {
+  padding:14px 28px; background:var(--gold); color:var(--noir); border:none;
+  font-family:'Jost',sans-serif; font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase;
+  cursor:pointer; transition:background 0.25s; white-space:nowrap;
+}
+.newsletter-btn:hover { background:var(--gold-light); }
+.newsletter-perks { display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap; margin-top:1.5rem; }
+.newsletter-perk { font-size:0.65rem; color:rgba(255,255,255,0.3); letter-spacing:0.08em; display:flex; align-items:center; gap:0.4rem; }
+.newsletter-perk span:first-child { color:var(--gold); }
+.newsletter-feedback { font-size:0.78rem; margin-top:0.75rem; min-height:1.2rem; }
+@media (max-width:768px) {
+  .newsletter-section { padding:3.5rem 1.5rem; }
+  .newsletter-title { font-size:1.75rem; }
+  .newsletter-form { flex-direction:column; }
+  .newsletter-input { border-right:1px solid rgba(184,151,106,0.3); border-bottom:none; }
+  .newsletter-btn { width:100%; }
+  .newsletter-perks { gap:1.2rem; }
+}
+
+/* ── PARRAINAGE OVERLAY ── */
+.parrain-overlay {
+  display:none; position:fixed; inset:0; z-index:700;
+  background:rgba(5,5,5,0.96); backdrop-filter:blur(16px);
+  align-items:center; justify-content:center;
+}
+.parrain-overlay.active { display:flex; }
+.parrain-box {
+  background:var(--blanc); max-width:560px; width:94%;
+  max-height:90vh; overflow-y:auto; position:relative;
+  animation: luxeIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.parrain-header { background:var(--noir); padding:2rem 2.5rem; }
+.parrain-eyebrow { font-size:0.58rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); margin-bottom:0.5rem; }
+.parrain-title { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; color:white; }
+.parrain-title em { font-style:italic; color:var(--gold-light); }
+.parrain-close { position:absolute; top:1.25rem; right:1.5rem; background:none; border:none; color:rgba(255,255,255,0.4); font-size:1.3rem; cursor:pointer; }
+.parrain-body { padding:2rem 2.5rem; }
+.parrain-desc { font-size:0.8rem; color:var(--text-muted); line-height:1.8; margin-bottom:2rem; }
+.parrain-steps { display:flex; flex-direction:column; gap:1rem; margin-bottom:2rem; }
+.parrain-step { display:flex; gap:1rem; align-items:flex-start; }
+.parrain-step-num { width:32px; height:32px; border-radius:50%; background:var(--noir); color:var(--gold); font-family:'Cormorant Garamond',serif; font-size:1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.parrain-step-text { flex:1; }
+.parrain-step-label { font-size:0.72rem; font-weight:500; color:var(--noir); margin-bottom:0.2rem; }
+.parrain-step-sub { font-size:0.7rem; color:var(--text-muted); line-height:1.6; }
+.parrain-code-box { background:var(--beige); border:1px solid var(--beige-dark); padding:1.5rem; text-align:center; margin-bottom:1.5rem; }
+.parrain-code-label { font-size:0.58rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:0.5rem; }
+.parrain-code-display { font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--noir); letter-spacing:0.2em; margin-bottom:0.75rem; }
+.parrain-code-actions { display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap; }
+.btn-parrain-copy { padding:10px 22px; background:var(--noir); color:white; border:none; font-family:'Jost',sans-serif; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; transition:background 0.2s; }
+.btn-parrain-copy:hover { background:var(--gold-dark); }
+.btn-parrain-share { padding:10px 22px; background:transparent; color:var(--gold); border:1px solid var(--gold); font-family:'Jost',sans-serif; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; transition:all 0.2s; }
+.btn-parrain-share:hover { background:var(--gold); color:var(--noir); }
+.parrain-stats { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.parrain-stat { background:var(--beige); padding:1rem; text-align:center; }
+.parrain-stat-num { font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--gold-dark); }
+.parrain-stat-label { font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-muted); }
+@media (max-width:600px) {
+  .parrain-body { padding:1.5rem; }
+  .parrain-header { padding:1.5rem; }
+}
+
+/* ── DASHBOARD OVERLAY ── */
+.dashboard-overlay {
+  display:none; position:fixed; inset:0; z-index:700;
+  background:rgba(5,5,5,0.97); backdrop-filter:blur(16px);
+  overflow-y:auto;
+}
+.dashboard-overlay.active { display:block; }
+.dashboard-header {
+  position:sticky; top:0; z-index:10;
+  background:rgba(10,10,10,0.97); backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(184,151,106,0.2);
+  padding:0 3rem; height:70px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.dashboard-header-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:300; color:white; letter-spacing:0.06em; }
+.dashboard-close { background:none; border:1px solid rgba(184,151,106,0.3); color:rgba(255,255,255,0.5); width:40px; height:40px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:center; }
+.dashboard-close:hover { border-color:var(--gold); color:white; }
+.dashboard-body { max-width:1100px; margin:0 auto; padding:3rem 2rem 6rem; }
+.dashboard-kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; margin-bottom:3rem; }
+.kpi-card { background:rgba(255,255,255,0.03); border:1px solid rgba(184,151,106,0.15); padding:1.75rem; position:relative; overflow:hidden; }
+.kpi-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); opacity:0.4; }
+.kpi-icon { font-size:1.5rem; margin-bottom:0.75rem; }
+.kpi-label { font-size:0.58rem; letter-spacing:0.25em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:0.4rem; }
+.kpi-value { font-family:'Cormorant Garamond',serif; font-size:2.2rem; color:white; line-height:1; }
+.kpi-sub { font-size:0.65rem; color:var(--gold); margin-top:0.35rem; }
+.dashboard-section-title { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:300; color:white; margin-bottom:1.5rem; border-bottom:1px solid rgba(184,151,106,0.12); padding-bottom:0.75rem; }
+.dashboard-orders-table { width:100%; border-collapse:collapse; }
+.dashboard-orders-table th { font-size:0.58rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(184,151,106,0.6); padding:0.6rem 1rem; text-align:left; border-bottom:1px solid rgba(184,151,106,0.12); }
+.dashboard-orders-table td { font-size:0.78rem; color:rgba(255,255,255,0.75); padding:0.9rem 1rem; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:middle; }
+.dashboard-orders-table tr:hover td { background:rgba(184,151,106,0.03); }
+.status-badge { font-size:0.55rem; letter-spacing:0.12em; text-transform:uppercase; padding:3px 10px; }
+.status-badge.paid { background:rgba(39,174,96,0.12); color:#27ae60; }
+.status-badge.shipped { background:rgba(52,152,219,0.12); color:#3498db; }
+.status-badge.pending { background:rgba(243,156,18,0.12); color:#f39c12; }
+.dashboard-chart { background:rgba(255,255,255,0.02); border:1px solid rgba(184,151,106,0.12); padding:2rem; margin-bottom:2rem; }
+.chart-bars { display:flex; align-items:flex-end; gap:0.5rem; height:120px; }
+.chart-bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:0.4rem; }
+.chart-bar { width:100%; background:rgba(184,151,106,0.25); border-top:2px solid var(--gold); transition:height 0.5s ease; min-height:4px; }
+.chart-bar-label { font-size:0.55rem; color:rgba(255,255,255,0.3); letter-spacing:0.05em; }
+.chart-bar-val { font-size:0.6rem; color:var(--gold); }
+.newsletter-admin-list { display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1rem; }
+.newsletter-sub-row { display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.03); border:1px solid rgba(184,151,106,0.1); padding:0.75rem 1rem; }
+.newsletter-sub-email { font-size:0.78rem; color:rgba(255,255,255,0.7); }
+.newsletter-sub-date { font-size:0.65rem; color:rgba(255,255,255,0.25); }
+@media (max-width:900px) {
+  .dashboard-kpis { grid-template-columns:1fr 1fr; }
+  .dashboard-header { padding:0 1.25rem; }
+  .dashboard-body { padding:2rem 1rem 4rem; }
+}
+@media (max-width:480px) {
+  .dashboard-kpis { grid-template-columns:1fr; }
+  .kpi-value { font-size:1.8rem; }
+}
+</style>
+
+<!-- NEWSLETTER SECTION (avant le footer) -->
+<!-- PARRAINAGE OVERLAY -->
+<div class="parrain-overlay" id="parrain-overlay" onclick="if(event.target===this)closeParrainage()">
+  <div class="parrain-box">
+    <div class="parrain-header">
+      <button class="parrain-close" onclick="closeParrainage()">✕</button>
+      <p class="parrain-eyebrow">Programme exclusif</p>
+      <h2 class="parrain-title">Parrainez un <em>ami</em></h2>
+    </div>
+    <div class="parrain-body">
+      <p class="parrain-desc">Offrez à vos proches un code de réduction et bénéficiez d'avantages exclusifs à chaque parrainage validé. Un geste élégant, récompensé.</p>
+      <div class="parrain-steps">
+        <div class="parrain-step">
+          <div class="parrain-step-num">1</div>
+          <div class="parrain-step-text">
+            <div class="parrain-step-label">Partagez votre code</div>
+            <div class="parrain-step-sub">Envoyez votre code unique à un ami par WhatsApp, email ou message.</div>
+          </div>
+        </div>
+        <div class="parrain-step">
+          <div class="parrain-step-num">2</div>
+          <div class="parrain-step-text">
+            <div class="parrain-step-label">Votre ami commande</div>
+            <div class="parrain-step-sub">Il saisit votre code au moment du paiement et obtient <strong>10% de réduction</strong> sur sa commande.</div>
+          </div>
+        </div>
+        <div class="parrain-step">
+          <div class="parrain-step-num">3</div>
+          <div class="parrain-step-text">
+            <div class="parrain-step-label">Vous êtes récompensé</div>
+            <div class="parrain-step-sub">Recevez un <strong>bon d'achat de 20€</strong> crédité sur votre prochain achat dès validation de la commande.</div>
+          </div>
+        </div>
+      </div>
+      <div class="parrain-code-box">
+        <p class="parrain-code-label">Votre code de parrainage</p>
+        <div class="parrain-code-display" id="parrain-code-display">—</div>
+        <div class="parrain-code-actions">
+          <button class="btn-parrain-copy" onclick="copyParrainCode()">📋 Copier</button>
+          <button class="btn-parrain-share" onclick="shareParrainCode()">↗ Partager</button>
+        </div>
+      </div>
+      <div class="parrain-stats">
+        <div class="parrain-stat">
+          <div class="parrain-stat-num" id="parrain-count">0</div>
+          <div class="parrain-stat-label">Amis parrainés</div>
+        </div>
+        <div class="parrain-stat">
+          <div class="parrain-stat-num" id="parrain-gains">0 €</div>
+          <div class="parrain-stat-label">Gains obtenus</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD OVERLAY (admin) -->
+<div class="dashboard-overlay" id="dashboard-overlay">
+  <div class="dashboard-header">
+    <span class="dashboard-header-title">Tableau de bord — <em style="font-style:italic;color:var(--gold-light)">Ventes</em></span>
+    <button class="dashboard-close" onclick="closeDashboard()">✕</button>
+  </div>
+  <div class="dashboard-body">
+    <!-- KPIs -->
+    <div class="dashboard-kpis" id="dashboard-kpis"></div>
+
+    <!-- Graphique mensuel -->
+    <div class="dashboard-chart">
+      <div style="font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;">Chiffre d'affaires — 6 derniers mois</div>
+      <div class="chart-bars" id="dashboard-chart-bars"></div>
+    </div>
+
+    <!-- Commandes récentes -->
+    <div style="margin-bottom:3rem;">
+      <h3 class="dashboard-section-title">Commandes récentes</h3>
+      <div style="overflow-x:auto;">
+        <table class="dashboard-orders-table" id="dashboard-orders-table">
+          <thead>
+            <tr>
+              <th>Référence</th>
+              <th>Client</th>
+              <th>Articles</th>
+              <th>Total</th>
+              <th>Date</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody id="dashboard-orders-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Abonnés newsletter -->
+    <div>
+      <h3 class="dashboard-section-title">Abonnés Newsletter <span id="nl-count-badge" style="font-size:0.8rem;color:var(--gold);margin-left:0.5rem;"></span></h3>
+      <div class="newsletter-admin-list" id="dashboard-nl-list"></div>
+      <button onclick="exportNewsletter()" style="padding:9px 20px;background:transparent;color:var(--gold);border:1px solid rgba(184,151,106,0.4);font-family:'Jost',sans-serif;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='rgba(184,151,106,0.1)'" onmouseout="this.style.background='transparent'">⬇ Exporter les emails</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// BANDEAU — éditable par admin
+// ══════════════════════════════════════════════
+(function() {
+  const saved = localStorage.getItem('horology_banner');
+  if (saved) document.getElementById('banner-text').textContent = saved;
+})();
+
+// ══════════════════════════════════════════════
+// NOTIFICATIONS TOAST
+// ══════════════════════════════════════════════
+function showToast({ icon='🔔', title='Notification', message='', duration=5000 }) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'notif-toast';
+  toast.innerHTML = `
+    <div class="notif-toast-icon">${icon}</div>
+    <div class="notif-toast-body">
+      <div class="notif-toast-title">${title}</div>
+      <div class="notif-toast-msg">${message}</div>
+    </div>
+    <button class="notif-toast-close" onclick="dismissToast(this.parentElement)">✕</button>
+  `;
+  container.appendChild(toast);
+  if (duration > 0) {
+    setTimeout(() => dismissToast(toast), duration);
+  }
+  return toast;
+}
+function dismissToast(toast) {
+  if (!toast || !toast.parentElement) return;
+  toast.classList.add('hide');
+  setTimeout(() => toast.remove(), 350);
+}
+
+// Écouter les nouvelles commandes (polling localStorage)
+let _lastOrderCount = null;
+function checkNewOrders() {
+  const orders = JSON.parse(localStorage.getItem('horology_orders') || '[]');
+  if (_lastOrderCount === null) { _lastOrderCount = orders.length; return; }
+  if (orders.length > _lastOrderCount) {
+    const newest = orders[0];
+    showToast({
+      icon: '🛍️',
+      title: 'Nouvelle commande !',
+      message: `${newest.name} — ${newest.total} €\n${newest.items ? newest.items.substring(0,60) : ''}`,
+      duration: 8000
+    });
+    // Son de notification (si autorisé)
+    try { new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAA...').play(); } catch(e) {}
+    _lastOrderCount = orders.length;
+  }
+}
+setInterval(checkNewOrders, 3000);
+
+// ══════════════════════════════════════════════
+// NEWSLETTER
+// ══════════════════════════════════════════════
+function getNewsletterSubs() {
+  try { return JSON.parse(localStorage.getItem('horology_newsletter') || '[]'); } catch { return []; }
+}
+function saveNewsletterSubs(subs) {
+  localStorage.setItem('horology_newsletter', JSON.stringify(subs));
+}
+
+function subscribeNewsletter() {
+  const input = document.getElementById('nl-email-input');
+  const fb = document.getElementById('nl-feedback');
+  const email = (input.value || '').trim().toLowerCase();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    fb.textContent = '⚠ Veuillez saisir une adresse email valide.';
+    fb.style.color = '#e74c3c'; return;
+  }
+  const subs = getNewsletterSubs();
+  if (subs.find(s => s.email === email)) {
+    fb.textContent = '✓ Vous êtes déjà inscrit(e) à la newsletter.';
+    fb.style.color = 'var(--gold)'; return;
+  }
+  subs.push({ email, date: new Date().toISOString() });
+  saveNewsletterSubs(subs);
+  input.value = '';
+  fb.textContent = '✦ Inscription confirmée — Bienvenue dans la famille Atelier Horloger !';
+  fb.style.color = 'var(--gold)';
+  showToast({ icon: '✉️', title: 'Newsletter', message: 'Inscription réussie ! Vous recevrez nos prochaines nouveautés en avant-première.', duration: 5000 });
+  setTimeout(() => { fb.textContent = ''; }, 6000);
+}
+
+// ══════════════════════════════════════════════
+// PARRAINAGE
+// ══════════════════════════════════════════════
+function generateParrainCode(name) {
+  const base = name ? name.replace(/\s+/g,'').toUpperCase().substring(0,5) : 'AMI';
+  const rand = Math.floor(1000 + Math.random() * 9000);
+  return `${base}${rand}`;
+}
+function getParrainData() {
+  try { return JSON.parse(localStorage.getItem('horology_parrain') || 'null'); } catch { return null; }
+}
+
+function openParrainage() {
+  const overlay = document.getElementById('parrain-overlay');
+  const client = getCurrentClient ? getCurrentClient() : null;
+  let data = getParrainData();
+
+  if (!data) {
+    const name = client ? client.name : 'AMI';
+    data = { code: generateParrainCode(name), count: 0, gains: 0 };
+    localStorage.setItem('horology_parrain', JSON.stringify(data));
+  }
+  document.getElementById('parrain-code-display').textContent = data.code;
+  document.getElementById('parrain-count').textContent = data.count;
+  document.getElementById('parrain-gains').textContent = data.gains + ' €';
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Auto-create promo code if not exists
+  ensureParrainPromo(data.code);
+}
+
+function ensureParrainPromo(code) {
+  const promos = getPromoCodes ? getPromoCodes() : [];
+  if (!promos.find(p => p.code === code)) {
+    promos.push({ code, type: 'percent', amount: 10, active: true, usages: [], isParrain: true });
+    if (typeof savePromoCodes === 'function') savePromoCodes(promos);
+  }
+}
+
+function closeParrainage() {
+  document.getElementById('parrain-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function copyParrainCode() {
+  const code = document.getElementById('parrain-code-display').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    showToast({ icon:'📋', title:'Code copié !', message:`"${code}" est dans votre presse-papiers.`, duration:3000 });
+  }).catch(() => {
+    showToast({ icon:'📋', title:'Code', message:`Votre code : ${code}`, duration:5000 });
+  });
+}
+
+function shareParrainCode() {
+  const code = document.getElementById('parrain-code-display').textContent;
+  const msg = `Bonjour ! Je t'offre 10% de réduction sur Atelier Horloger avec mon code de parrainage : *${code}* 🎁\n👉 https://horologysuisse.github.io/horology/#`;
+  if (navigator.share) {
+    navigator.share({ title: 'Code parrainage Atelier Horloger', text: msg });
+  } else {
+    window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (document.getElementById('parrain-overlay')?.classList.contains('active')) closeParrainage();
+    if (document.getElementById('dashboard-overlay')?.classList.contains('active')) closeDashboard();
+  }
+});
+
+// ══════════════════════════════════════════════
+// DASHBOARD VENTES
+// ══════════════════════════════════════════════
+function openDashboard() {
+  const overlay = document.getElementById('dashboard-overlay');
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  renderDashboard();
+}
+function closeDashboard() {
+  document.getElementById('dashboard-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function renderDashboard() {
+  const orders = JSON.parse(localStorage.getItem('horology_orders') || '[]');
+  const now = new Date();
+  const thisMonth = now.getMonth();
+  const thisYear = now.getFullYear();
+
+  // KPIs
+  const ordersThisMonth = orders.filter(o => {
+    const d = new Date(o.date);
+    return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+  });
+  const caTotal = orders.reduce((s, o) => s + parseFloat(o.total || 0), 0);
+  const caMonth = ordersThisMonth.reduce((s, o) => s + parseFloat(o.total || 0), 0);
+  const nlSubs = getNewsletterSubs().length;
+  const parrainData = getParrainData();
+
+  document.getElementById('dashboard-kpis').innerHTML = `
+    <div class="kpi-card">
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-label">CA Total</div>
+      <div class="kpi-value">${caTotal.toLocaleString('fr-FR', {minimumFractionDigits:0})} €</div>
+      <div class="kpi-sub">${orders.length} commande${orders.length !== 1 ? 's' : ''} au total</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">📅</div>
+      <div class="kpi-label">CA ce mois</div>
+      <div class="kpi-value">${caMonth.toLocaleString('fr-FR', {minimumFractionDigits:0})} €</div>
+      <div class="kpi-sub">${ordersThisMonth.length} commande${ordersThisMonth.length !== 1 ? 's' : ''} ce mois</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">✉️</div>
+      <div class="kpi-label">Abonnés newsletter</div>
+      <div class="kpi-value">${nlSubs}</div>
+      <div class="kpi-sub">inscrits actifs</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon">🤝</div>
+      <div class="kpi-label">Parrainages</div>
+      <div class="kpi-value">${parrainData ? parrainData.count : 0}</div>
+      <div class="kpi-sub">amis parrainés</div>
+    </div>
+  `;
+
+  // Graphique 6 mois
+  const months = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(thisYear, thisMonth - i, 1);
+    months.push({ label: d.toLocaleDateString('fr-FR',{month:'short'}), year: d.getFullYear(), month: d.getMonth() });
+  }
+  const monthlyCA = months.map(m => {
+    return orders.filter(o => {
+      const d = new Date(o.date);
+      return d.getMonth() === m.month && d.getFullYear() === m.year;
+    }).reduce((s, o) => s + parseFloat(o.total || 0), 0);
+  });
+  const maxCA = Math.max(...monthlyCA, 1);
+  document.getElementById('dashboard-chart-bars').innerHTML = monthlyCA.map((ca, i) => `
+    <div class="chart-bar-wrap">
+      <div class="chart-bar-val">${ca > 0 ? ca.toLocaleString('fr-FR',{maximumFractionDigits:0})+'€' : ''}</div>
+      <div class="chart-bar" style="height:${Math.max(4, Math.round(ca/maxCA*100))}px"></div>
+      <div class="chart-bar-label">${months[i].label}</div>
+    </div>
+  `).join('');
+
+  // Table commandes
+  const tbody = document.getElementById('dashboard-orders-body');
+  if (!orders.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:rgba(255,255,255,0.25);padding:2rem;">Aucune commande pour le moment.</td></tr>';
+  } else {
+    tbody.innerHTML = orders.slice(0,20).map(o => {
+      const date = new Date(o.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+      const status = o.tracking ? 'shipped' : 'paid';
+      const statusLabel = o.tracking ? '📦 Expédié' : '✅ Payé';
+      return `<tr>
+        <td style="font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:var(--gold-light);">${o.id}</td>
+        <td>${o.name || '—'}</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.items || '—'}</td>
+        <td style="font-family:'Cormorant Garamond',serif;font-size:1rem;">${o.total} €</td>
+        <td style="color:rgba(255,255,255,0.4);">${date}</td>
+        <td><span class="status-badge ${status}">${statusLabel}</span></td>
+      </tr>`;
+    }).join('');
+  }
+
+  // Newsletter list
+  const subs = getNewsletterSubs();
+  document.getElementById('nl-count-badge').textContent = `(${subs.length})`;
+  const nlList = document.getElementById('dashboard-nl-list');
+  if (!subs.length) {
+    nlList.innerHTML = '<p style="font-size:0.78rem;color:rgba(255,255,255,0.3);">Aucun abonné pour le moment.</p>';
+  } else {
+    nlList.innerHTML = subs.slice(-20).reverse().map(s => `
+      <div class="newsletter-sub-row">
+        <span class="newsletter-sub-email">${s.email}</span>
+        <span class="newsletter-sub-date">${new Date(s.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'})}</span>
+      </div>
+    `).join('');
+  }
+}
+
+function exportNewsletter() {
+  const subs = getNewsletterSubs();
+  if (!subs.length) { showToast({ icon:'ℹ️', title:'Newsletter', message:'Aucun abonné à exporter.', duration:3000 }); return; }
+  const csv = 'Email,Date inscription\n' + subs.map(s => `${s.email},${new Date(s.date).toLocaleDateString('fr-FR')}`).join('\n');
+  const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'newsletter_atelierhorloger.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  showToast({ icon:'⬇', title:'Export réussi', message:`${subs.length} email(s) exporté(s) en CSV.`, duration:3000 });
+}
+
+// Bouton parrainage dans la nav (footer)
+// et bouton dashboard dans l'admin
+</script>
+
 </body>
 </html>
