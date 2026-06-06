@@ -2622,6 +2622,18 @@
             <label>Votre numéro de téléphone (optionnel — pour suivi WhatsApp)</label>
             <input type="tel" id="conf-tel" placeholder="+33 6 XX XX XX XX">
 
+            <label>Adresse de livraison</label>
+            <input type="text" id="conf-adresse" placeholder="12 rue des Horlogers">
+
+            <label>Code postal</label>
+            <input type="text" id="conf-cp" placeholder="75001">
+
+            <label>Ville</label>
+            <input type="text" id="conf-ville" placeholder="Paris">
+
+            <label>Pays</label>
+            <input type="text" id="conf-pays" placeholder="France">
+
             <div id="conf-send-feedback" style="display:none;margin-top:0.75rem;font-size:0.75rem;"></div>
           </div>
 
@@ -5760,6 +5772,10 @@ async function submitConfiguration() {
   const nom = document.getElementById('conf-nom').value.trim();
   const gravure = document.getElementById('conf-gravure-text').value.trim();
   const tel = document.getElementById('conf-tel').value.trim();
+  const adresse = document.getElementById('conf-adresse').value.trim();
+  const cp = document.getElementById('conf-cp').value.trim();
+  const ville = document.getElementById('conf-ville').value.trim();
+  const pays = document.getElementById('conf-pays').value.trim();
   const feedback = document.getElementById('conf-send-feedback');
 
   if (!email || !nom) {
@@ -5795,10 +5811,10 @@ async function submitConfiguration() {
       client_email: email,
       client_tel: tel || 'Non renseigné',
       date: dateStr,
-      adresse: '— COMPOSITION PERSONNALISÉE —',
-      ville: '',
-      cp: '',
-      pays: '',
+      adresse: adresse || '—',
+      ville: ville || '—',
+      cp: cp || '—',
+      pays: pays || '—',
       detail_commande: composition,
       total: 'Sur devis'
     });
@@ -5832,6 +5848,10 @@ function restartConfiguration() {
   document.getElementById('conf-email').value = '';
   document.getElementById('conf-nom').value = '';
   document.getElementById('conf-tel').value = '';
+  document.getElementById('conf-adresse').value = '';
+  document.getElementById('conf-cp').value = '';
+  document.getElementById('conf-ville').value = '';
+  document.getElementById('conf-pays').value = '';
   document.getElementById('conf-gravure-text').value = '';
   document.getElementById('conf-send-feedback').style.display = 'none';
   const submitBtn = document.getElementById('btn-conf-submit');
