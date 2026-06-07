@@ -4414,8 +4414,12 @@ function renderGrid() {
     card.className = 'watch-card';
     card.onclick = () => openDetail(w.id);
 
+    const containIds = ['oyster-blanc-cadran-001', 'datejust-11'];
+    const isContain = containIds.includes(w.id);
+    const imgStyle = isContain ? ' style="object-fit:contain;width:100%;height:100%"' : '';
+    const imgWrapStyle = isContain ? ' style="background:#ffffff"' : '';
     const imgHtml = w.img
-      ? `<img src="${w.img}" alt="${w.brand} ${w.name}">`
+      ? `<img src="${w.img}" alt="${w.brand} ${w.name}"${imgStyle}>`
       : `<div class="watch-placeholder">⌚</div>`;
 
     const badgeHtml = w.badge
@@ -4425,7 +4429,7 @@ function renderGrid() {
     const priceFormatted = Number(w.price).toLocaleString('fr-FR') + ' €';
 
     card.innerHTML = `
-      <div class="watch-img-wrap">
+      <div class="watch-img-wrap"${imgWrapStyle}>
         ${imgHtml}
         ${badgeHtml}
       </div>
