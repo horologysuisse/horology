@@ -4178,20 +4178,210 @@ async function sbUpdate(t,id,row){const r=await fetch(SB_URL+'/rest/v1/'+t+'?id=
 async function sbDelete(t,id){await fetch(SB_URL+'/rest/v1/'+t+'?id=eq.'+id,{method:'DELETE',headers:SB_H})}
 async function loadWatches(){
   watches=await sbGet('watches');
-  const hasDatejust=watches.some(w=>(w.brand||'').toLowerCase().includes('datejust')||(w.name||'').toLowerCase().includes('datejust'));
-  if(!hasDatejust){
-    const djRow={
-      id:'datejust-chocolate-rosegold-001',
-      brand:'Datejust',
-      name:'Chocolate Arabesque Rose Gold 39mm',
-      desc:'Cadran chocolat guilloché aux chiffres arabes, boîtier et bracelet Jubilée en acier et or rose. Lunette cannelée dorée. Mouvement automatique haute précision.',
+
+  // Montres à seeder automatiquement si absentes
+  const seedCatalog=[
+    {
+      id:"oyster-chocolate-arabic-rosegold-001",
+      brand:"Oyster",
+      name:"Chocolate Arabic Rose Gold 39mm",
+      desc:"Cadran chocolat guilloch\u00e9 chiffres arabes, bo\u00eetier acier et or rose. Mouvement automatique.",
+      price:589,
+      badge:"Nouveau",
+      img:"https://i.ibb.co/gMkxrP9t/datejust-arabic-chocolate-rosegold-39mm-montre-seiko-mod-1.png"
+    },
+    {
+      id:"oyster-blanc-cadran-001",
+      brand:"Oyster",
+      name:"Cadran Blanc Classique 39mm",
+      desc:"Cadran blanc \u00e9pur\u00e9, index b\u00e2ton dor\u00e9s, bracelet Oyster acier. \u00c9l\u00e9gance intemporelle.",
+      price:520,
+      badge:"",
+      img:"https://i.ibb.co/mrsrvFWS/image.png"
+    },
+    {
+      id:"oyster-serie-1",
+      brand:"Oyster",
+      name:"Perpetual 39mm Acier",
+      desc:"Bo\u00eetier acier bross\u00e9, cadran sunray, bracelet Oyster trois rangs. Finition premium.",
+      price:499,
+      badge:"",
+      img:"https://i.ibb.co/FLK905CT/1.png"
+    },
+    {
+      id:"oyster-serie-2",
+      brand:"Oyster",
+      name:"Perpetual Date Steel",
+      desc:"Cadran \u00e9pur\u00e9 avec fen\u00eatre date, lunette lisse acier, bracelet Oyster sportif.",
+      price:530,
+      badge:"",
+      img:"https://i.ibb.co/GvWB5C4B/2.png"
+    },
+    {
+      id:"oyster-serie-3",
+      brand:"Oyster",
+      name:"Perpetual Bicolore",
+      desc:"Association acier et or rose, cadran sunray champagne. Raffinement discret.",
+      price:599,
+      badge:"",
+      img:"https://i.ibb.co/WNRjM4xJ/3.png"
+    },
+    {
+      id:"oyster-serie-4",
+      brand:"Oyster",
+      name:"Perpetual Gold Dial",
+      desc:"Cadran dor\u00e9 guilloch\u00e9, bo\u00eetier acier poli, index appliques. Luxe accessible.",
+      price:549,
+      badge:"",
+      img:"https://i.ibb.co/qF3gJFBj/4.png"
+    },
+    {
+      id:"oyster-serie-5",
+      brand:"Oyster",
+      name:"Perpetual Noir 39mm",
+      desc:"Cadran noir sunburst, lunette lisse, bracelet Oyster poli-bross\u00e9. Sport & \u00e9l\u00e9gance.",
+      price:519,
+      badge:"",
+      img:"https://i.ibb.co/B2n662xg/5.png"
+    },
+    {
+      id:"oyster-roman-gold-001",
+      brand:"Oyster",
+      name:"Roman Gold Datejust 39mm",
+      desc:"Chiffres romains dor\u00e9s sur cadran champagne, lunette cannel\u00e9e or, bracelet Jubil\u00e9e.",
       price:649,
-      badge:'Exclusif',
-      img:'https://i.ibb.co/Tx1sP2Gb/datejust-arabic-chocolate-rosegold-39mm-montre-seiko-mod.png'
-    };
-    const res=await sbInsert('watches',djRow);
-    if(res&&res[0]){watches.push(res[0]);}else{watches.push(djRow);}
+      badge:"Best-seller",
+      img:"https://i.ibb.co/23x79mPt/roman-gold-datejust-39mm-seiko-mod-1.png"
+    },
+    {
+      id:"oyster-roman-39mm-001",
+      brand:"Oyster",
+      name:"Seiko Mod Roman 39mm",
+      desc:"Mod Seiko haute pr\u00e9cision, cadran chiffres romains, finition bicolore or et acier.",
+      price:579,
+      badge:"",
+      img:"https://i.ibb.co/bRYBnFy8/seiko-mod-datejust-roman-39mm-1.png"
+    },
+    {
+      id:"oyster-roman-seiko-001",
+      brand:"Oyster",
+      name:"Seiko Mod Roman Classic",
+      desc:"Base Seiko modifi\u00e9e, cadran blanc chiffres romains, bracelet acier poli.",
+      price:559,
+      badge:"",
+      img:"https://i.ibb.co/TD1G2Qg8/seiko-mod-datejust-roman-1.png"
+    },
+    {
+      id:"datejust-11",
+      brand:"Datejust",
+      name:"Jubil\u00e9e Acier 39mm",
+      desc:"Cadran guilloch\u00e9 sunray, bracelet Jubil\u00e9e cinq rangs acier. Mouvement automatique pr\u00e9cis.",
+      price:629,
+      badge:"",
+      img:"https://i.ibb.co/CszLwcbt/11.png"
+    },
+    {
+      id:"datejust-12",
+      brand:"Datejust",
+      name:"Bicolore Or Rose 39mm",
+      desc:"Bo\u00eetier acier et lunette or rose, cadran champagne, bracelet Jubil\u00e9e bicolore.",
+      price:679,
+      badge:"",
+      img:"https://i.ibb.co/LdV2xPRM/12.png"
+    },
+    {
+      id:"datejust-chocolate-rosegold-001",
+      brand:"Datejust",
+      name:"Chocolate Arabesque Rose Gold 39mm",
+      desc:"Cadran chocolat guilloch\u00e9 chiffres arabes, lunette cannel\u00e9e or rose, bracelet Jubil\u00e9e.",
+      price:649,
+      badge:"Exclusif",
+      img:"https://i.ibb.co/Tx1sP2Gb/datejust-arabic-chocolate-rosegold-39mm-montre-seiko-mod.png"
+    },
+    {
+      id:"datejust-13",
+      brand:"Datejust",
+      name:"Dial Ardoise Arabesque 39mm",
+      desc:"Cadran ardoise textur\u00e9 chiffres arabes, lunette lisse acier, bracelet Jubil\u00e9e.",
+      price:639,
+      badge:"",
+      img:"https://i.ibb.co/vx0ZgZMF/13.png"
+    },
+    {
+      id:"datejust-bleue-arabic",
+      brand:"Datejust",
+      name:"Arabic Bleue 39mm",
+      desc:"Cadran bleu intense chiffres arabes, lunette cannel\u00e9e acier, bracelet Jubil\u00e9e poli.",
+      price:649,
+      badge:"Nouveau",
+      img:"https://i.ibb.co/CK3HVvXQ/datejust-arabic-bleue-montre-seiko-mod.png"
+    },
+    {
+      id:"datejust-rose-arabic",
+      brand:"Datejust",
+      name:"Arabic Rose Poudr\u00e9 39mm",
+      desc:"Cadran rose poudr\u00e9 chiffres arabes, lunette or rose, bracelet Jubil\u00e9e bicolore.",
+      price:659,
+      badge:"",
+      img:"https://i.ibb.co/MyJk8g9x/datejust-arabic-rose-montre-seiko-mod.png"
+    },
+    {
+      id:"datejust-verte-arabic-1",
+      brand:"Datejust",
+      name:"Arabic Verte 39mm \u2014 Vue I",
+      desc:"Cadran vert profond chiffres arabes, bo\u00eetier acier, lunette lisse. Vue de face.",
+      price:639,
+      badge:"",
+      img:"https://i.ibb.co/BHDr8t32/montre-datejust-arabic-verte-39mm-seiko-mod-1.png"
+    },
+    {
+      id:"datejust-verte-arabic-2",
+      brand:"Datejust",
+      name:"Arabic Verte 39mm \u2014 Vue II",
+      desc:"Cadran vert profond chiffres arabes. Vue de profil r\u00e9v\u00e9lant le bo\u00eetier et la couronne.",
+      price:639,
+      badge:"",
+      img:"https://i.ibb.co/6cKgHbq6/montre-datejust-arabic-verte-39mm-seiko-mod-2.png"
+    },
+    {
+      id:"datejust-roman-gold",
+      brand:"Datejust",
+      name:"Roman Gold 39mm",
+      desc:"Chiffres romains dor\u00e9s, cadran champagne guilloch\u00e9, lunette cannel\u00e9e or, bracelet Jubil\u00e9e.",
+      price:669,
+      badge:"Best-seller",
+      img:"https://i.ibb.co/n80g4bm2/roman-gold-datejust-39mm-seiko-mod.png"
+    },
+    {
+      id:"datejust-roman-39mm",
+      brand:"Datejust",
+      name:"Roman Silver 39mm",
+      desc:"Cadran blanc chiffres romains, acier poli, lunette lisse. \u00c9l\u00e9gance classique.",
+      price:619,
+      badge:"",
+      img:"https://i.ibb.co/b5f4ht8t/seiko-mod-datejust-roman-39mm.png"
+    },
+    {
+      id:"datejust-roman-seiko",
+      brand:"Datejust",
+      name:"Roman Classique Seiko Mod",
+      desc:"Base Seiko modifi\u00e9e haute pr\u00e9cision, cadran chiffres romains, bicolore or et acier.",
+      price:599,
+      badge:"",
+      img:"https://i.ibb.co/fdBzh4ZG/seiko-mod-datejust-roman.png"
+    }
+  ];
+
+  for(const item of seedCatalog){
+    const exists=watches.some(w=>w.id===item.id||
+      ((w.brand||'').toLowerCase()===( item.brand||'').toLowerCase()&&
+       (w.name||'').toLowerCase()===(item.name||'').toLowerCase()));
+    if(!exists){
+      const res=await sbInsert('watches',item);
+      if(res&&res[0]){watches.push(res[0]);}else{watches.push(item);}
+    }
   }
+
   renderGrid();
   renderAdminList();
 }
