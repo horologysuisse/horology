@@ -4778,7 +4778,7 @@ function addToCart(watchId) {
   if (!w) return;
   const existing = cart.find(i => i.id === watchId && i.type === 'watch');
   if (existing) { existing.qty = (existing.qty || 1) + 1; }
-  else { cart.push({ id: watchId, type: 'watch', brand: w.brand, name: w.name, price: parseFloat(w.price) || 0, img: w.img || '', qty: 1 }); }
+  else { cart.push({ id: watchId, type: 'watch', brand: w.brand, name: w.name, price: Number(w.price), img: w.img || '', qty: 1 }); }
   saveCart();
   updateCartCount();
   openUpsell(w);
@@ -4798,7 +4798,7 @@ function buyNowFromModal() {
   // Add to cart if not already there
   const existing = cart.find(i => i.id === currentModalWatchId && i.type === 'watch');
   if (!existing) {
-    cart.push({ id: currentModalWatchId, type: 'watch', brand: w.brand, name: w.name, price: parseFloat(w.price) || 0, img: w.img || '', qty: 1 });
+    cart.push({ id: currentModalWatchId, type: 'watch', brand: w.brand, name: w.name, price: Number(w.price), img: w.img || '', qty: 1 });
     saveCart();
     updateCartCount();
   }
@@ -4999,7 +4999,7 @@ function skipPhoneAndPay() {
 }
 
 function _doCheckout(phone) {
-  const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * (i.qty || 1), 0);
+  const subtotal = cart.reduce((s, i) => s + i.price * (i.qty || 1), 0);
   let total = subtotal;
   if (activePromo) {
     const disc = computeDiscount(activePromo, subtotal);
@@ -6580,9 +6580,11 @@ document.addEventListener('keydown', e => {
       <!-- AQUANAUT -->
       <div class="bs-card" onclick="closeBestSeller();setTimeout(()=>openModelOverlay('Aquanaut'),250)">
         <div class="bs-rank">#1 Best Seller</div>
-        <div class="bs-img-wrap">⌚</div>
+        <div class="bs-img-wrap" style="padding:0;overflow:hidden;">
+          <video src="https://res.cloudinary.com/dldbdhvdx/video/upload/v1780944608/WhatsApp_Video_2026-06-08_at_20.49.52_kwfuzj.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+        </div>
         <div class="bs-info">
-          <p class="bs-brand">Patek Philippe</p>
+          <p class="bs-brand">SEIKO</p>
           <h3 class="bs-name">Aquanaut</h3>
           <p class="bs-desc">L'icône sportive et contemporaine de Patek Philippe. Boîtier arrondi en acier poli-satiné, cadran gaufré signature et bracelet composite intégré. Une montre de sport de luxe intemporelle.</p>
           <div class="bs-footer">
@@ -6598,9 +6600,11 @@ document.addEventListener('keydown', e => {
       <!-- DAY-DATE -->
       <div class="bs-card" onclick="closeBestSeller();setTimeout(()=>openModelOverlay('Day-Date'),250)">
         <div class="bs-rank">#2 Best Seller</div>
-        <div class="bs-img-wrap">⌚</div>
+        <div class="bs-img-wrap" style="padding:0;overflow:hidden;">
+          <video src="https://res.cloudinary.com/dldbdhvdx/video/upload/v1780940223/WhatsApp_Video_2026-06-08_at_19.36.21_y9yxem.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+        </div>
         <div class="bs-info">
-          <p class="bs-brand">Rolex</p>
+          <p class="bs-brand">SEIKO</p>
           <h3 class="bs-name">Day-Date</h3>
           <p class="bs-desc">Le symbole ultime de prestige et de réussite. Surnommée la "montre des présidents", le Day-Date affiche le jour en toutes lettres et la date, dans un boîtier en or d'une élégance absolue.</p>
           <div class="bs-footer">
@@ -6616,9 +6620,11 @@ document.addEventListener('keydown', e => {
       <!-- ROYAL OAK -->
       <div class="bs-card" onclick="closeBestSeller();setTimeout(()=>openModelOverlay('Royal Oak'),250)">
         <div class="bs-rank">#3 Best Seller</div>
-        <div class="bs-img-wrap">⌚</div>
+        <div class="bs-img-wrap" style="padding:0;overflow:hidden;">
+          <video src="https://res.cloudinary.com/dldbdhvdx/video/upload/v1780944459/WhatsApp_Video_2026-06-08_at_20.47.16_yarpx2.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+        </div>
         <div class="bs-info">
-          <p class="bs-brand">Audemars Piguet</p>
+          <p class="bs-brand">SEIKO</p>
           <h3 class="bs-name">Royal Oak</h3>
           <p class="bs-desc">L'œuvre maîtresse de Gerald Genta, révolutionnaire depuis 1972. Son boîtier octogonal aux vis apparentes, son cadran "Grande Tapisserie" et son bracelet intégré en font une icône du luxe sport.</p>
           <div class="bs-footer">
@@ -7302,7 +7308,6 @@ async function stripeConfirmPayment() {
     const { error, paymentIntent } = await stripeInstance.confirmPayment({
       elements: stripeElements,
       confirmParams: {
-        return_url: window.location.href.split('?')[0] + '?payment=success',
         payment_method_data: {
           billing_details: {
             name: liv.nom || '',
@@ -7344,22 +7349,6 @@ async function stripeConfirmPayment() {
     spinner.style.display = 'none';
   }
 }
-
-
-// ── Détection retour après paiement Revolut/redirect ──
-(function() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('payment') === 'success') {
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        document.getElementById('payment-success-overlay').style.display = 'flex';
-        showToast({ icon:'✅', title:'Paiement accepté !', message:'Votre commande est confirmée. Merci pour votre achat !', duration:7000 });
-        // Clean URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }, 800);
-    });
-  }
-})();
 
 </script>
 
