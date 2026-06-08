@@ -1854,6 +1854,7 @@
       <nav class="nav-categories">
         <a href="javascript:void(0)" onclick="openBestSeller()" style="color:var(--gold);font-weight:400;">Best Sellers</a>
         <a href="javascript:void(0)" onclick="openCatalogue()" style="color:var(--gold);font-weight:400;">Catalogue</a>
+        <a href="javascript:void(0)" onclick="openHistoire()">Notre Histoire</a>
         <a href="#avis">Avis clients</a>
         <a href="#contact">Nous contacter</a>
         <a href="#suivi" style="color:var(--gold)">📦 Suivi de colis</a>
@@ -1884,6 +1885,13 @@
       <button class="cart-btn" onclick="openCart()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="cart-count" id="cart-count">0</span>
+      </button>
+      <button class="cart-btn" onclick="openWishlist()" title="Ma Wishlist" style="position:relative;">
+        <span id="header-wishlist-icon" style="font-size:1rem;">♡</span>
+        <span class="cart-count" id="wishlist-count" style="display:none">0</span>
+      </button>
+      <button class="cart-btn" onclick="openFidelite()" title="Points Fidélité" style="font-size:0.65rem;letter-spacing:0.1em;">
+        ⭐ <span id="header-points">0 pts</span>
       </button>
       <div class="account-wrapper" id="account-wrapper">
         <button class="btn-client-account" id="btn-account" onclick="toggleAccountMenu()">
@@ -1924,6 +1932,12 @@
     <a class="mobile-menu-link" href="javascript:void(0)" onclick="closeMobileMenu();openBestSeller()" style="color:rgba(184,151,106,1);">
       <span class="link-icon">✦</span> Best Sellers
     </a>
+    <a class="mobile-menu-link" href="javascript:void(0)" onclick="closeMobileMenu();openSeikoMod()" style="color:rgba(184,151,106,1);">
+      <span class="link-icon">⌚</span> Seiko Mod Custom
+    </a>
+    <a class="mobile-menu-link" href="javascript:void(0)" onclick="closeMobileMenu();openHistoire()">
+      <span class="link-icon">🏛</span> Notre Histoire
+    </a>
     <a class="mobile-menu-link" href="#avis" onclick="closeMobileMenu()">
       <span class="link-icon">★</span> Avis clients
     </a>
@@ -1933,6 +1947,12 @@
 
   <p class="mobile-menu-eyebrow">Services</p>
   <div class="mobile-menu-links">
+    <a class="mobile-menu-link" href="javascript:void(0)" onclick="closeMobileMenu();openWishlist()" style="color:rgba(212,184,150,0.9)">
+      <span class="link-icon">♡</span> Ma Wishlist
+    </a>
+    <a class="mobile-menu-link" href="javascript:void(0)" onclick="closeMobileMenu();openFidelite()" style="color:rgba(212,184,150,0.9)">
+      <span class="link-icon">⭐</span> Fidélité & Points
+    </a>
     <a class="mobile-menu-link" href="#contact" onclick="closeMobileMenu()" style="color:rgba(212,184,150,0.9)">
       <span class="link-icon">✉</span> Nous contacter
     </a>
@@ -1952,9 +1972,9 @@
   <h1>L'art du temps<br><em>à votre poignet</em></h1>
   <p class="hero-sub">Chaque pièce, une histoire. Chaque instant, un chef-d'œuvre.</p>
   <a href="javascript:void(0)" onclick="openBestSeller()" class="hero-cta">Découvrir la collection</a>
-  <button class="hero-cta-configurateur" onclick="openConfigurateurOverlay()">
+  <button class="hero-cta-configurateur" onclick="openSeikoMod()">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-    Créez votre montre
+    Créez votre Seiko Mod
   </button>
 </section>
 
@@ -3443,11 +3463,16 @@ footer {
       <p class="footer-col-title">Services</p>
       <div class="footer-col-links">
         <button onclick="openConfigurateurOverlay()">Créer votre montre</button>
+        <button onclick="openSeikoMod()">Seiko Mod Custom</button>
+        <button onclick="openGuide()">Guide tailles bracelet</button>
         <button onclick="openCatalogue()">Catalogue complet</button>
         <a href="#suivi">Suivi de commande</a>
         <a href="#contact">Nous contacter</a>
         <a href="#newsletter">Newsletter</a>
         <button onclick="openParrainage()">Parrainage — offrir 10%</button>
+        <button onclick="openFidelite()">Programme de fidélité</button>
+        <button onclick="openWishlist()">Ma Wishlist</button>
+        <button onclick="openHistoire()">Notre Histoire</button>
         <a href="#avis">Avis clients</a>
       </div>
     </div>
@@ -3526,6 +3551,9 @@ footer {
       </div>
       <button class="btn-checkout" onclick="checkoutCart()">Finaliser la commande</button>
       <button class="btn-continue" onclick="closeCart()">Continuer mes achats</button>
+      <div style="text-align:center;margin-top:0.5rem;">
+        <button class="btn-guide-tailles" onclick="closeCart();openGuide()">📏 Guide des tailles de bracelet</button>
+      </div>
     </div>
   </div>
 </div>
@@ -3592,6 +3620,7 @@ footer {
       <p class="modal-price" id="modal-price"></p>
       <button class="btn-contact" style="margin-bottom:0.75rem" onclick="addToCartFromModal()">+ Ajouter au panier</button>
       <button class="btn-contact" style="margin-bottom:0.75rem;background:var(--gold);color:var(--noir);" onclick="buyNowFromModal()">⚡ Payer maintenant</button>
+      <button class="btn-contact" id="modal-wishlist-btn" style="margin-bottom:0.75rem;background:transparent;color:var(--gold);border:1px solid var(--gold)" onclick="toggleWishlistFromModal()">♡ Ajouter à ma wishlist</button>
       <button class="btn-contact" style="background:transparent;color:var(--noir);border:1px solid var(--beige-dark)" onclick="contactWatch()">Demander un renseignement</button>
     </div>
   </div>
@@ -4481,6 +4510,7 @@ function renderGrid() {
           <div style="display:flex;gap:0.5rem">
             <button class="btn-voir" onclick="event.stopPropagation();openDetail('${w.id}')">Voir</button>
             <button class="btn-voir" style="background:var(--noir);color:white;border-color:var(--noir)" onclick="event.stopPropagation();addToCart('${w.id}')">+ Panier</button>
+            <button class="btn-wishlist-card" id="wl-btn-${w.id}" onclick="event.stopPropagation();toggleWishlist('${w.id}')" title="Ajouter à la wishlist" style="width:36px;height:36px;border:1px solid var(--beige-dark);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all 0.2s;flex-shrink:0;">${isInWishlist(w.id)?'♥':'♡'}</button>
           </div>
         </div>
       </div>
@@ -4743,6 +4773,10 @@ function openDetail(id) {
     }
   }
   currentModalEmail = `contact@horology.fr?subject=Renseignement%20–%20${encodeURIComponent(w.brand + ' ' + w.name)}`;
+  window._currentModalId = id;
+  // Update wishlist button
+  const wlBtn = document.getElementById('modal-wishlist-btn');
+  if (wlBtn) wlBtn.textContent = isInWishlist(id) ? '♥ Dans ma wishlist' : '♡ Ajouter à ma wishlist';
   document.getElementById('detail-modal').classList.add('active');
 }
 
@@ -7211,8 +7245,239 @@ function exportNewsletter() {
   showToast({ icon:'⬇', title:'Export réussi', message:`${subs.length} email(s) exporté(s) en CSV.`, duration:3000 });
 }
 
-// Bouton parrainage dans la nav (footer)
-// et bouton dashboard dans l'admin
+// ══════════════════════════════════════════════
+// WISHLIST
+// ══════════════════════════════════════════════
+function getWishlist() { try { return JSON.parse(localStorage.getItem('ah_wishlist') || '[]'); } catch { return []; } }
+function saveWishlist(w) { localStorage.setItem('ah_wishlist', JSON.stringify(w)); }
+function isInWishlist(id) { return getWishlist().includes(String(id)); }
+function toggleWishlist(id) {
+  let wl = getWishlist();
+  const sid = String(id);
+  if (wl.includes(sid)) {
+    wl = wl.filter(x => x !== sid);
+    showToast({ icon:'♡', title:'Wishlist', message:'Retiré de votre wishlist.', duration:2500 });
+  } else {
+    wl.push(sid);
+    showToast({ icon:'♥', title:'Wishlist', message:'Ajouté à votre wishlist !', duration:2500 });
+  }
+  saveWishlist(wl);
+  updateWishlistCount();
+  renderWatches();
+}
+function toggleWishlistFromModal() {
+  const id = window._currentModalId;
+  if (!id) return;
+  toggleWishlist(id);
+  const btn = document.getElementById('modal-wishlist-btn');
+  if (btn) btn.textContent = isInWishlist(id) ? '♥ Dans ma wishlist' : '♡ Ajouter à ma wishlist';
+}
+function updateWishlistCount() {
+  const wl = getWishlist();
+  const cnt = document.getElementById('wishlist-count');
+  const ico = document.getElementById('header-wishlist-icon');
+  if (cnt) { cnt.textContent = wl.length; cnt.style.display = wl.length > 0 ? 'flex' : 'none'; }
+  if (ico) { ico.textContent = wl.length > 0 ? '♥' : '♡'; ico.style.color = wl.length > 0 ? 'var(--gold)' : ''; }
+}
+function openWishlist() {
+  const wl = getWishlist();
+  const overlay = document.getElementById('wishlist-overlay');
+  const grid = document.getElementById('wishlist-grid');
+  if (!wl.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:4rem 1rem;color:var(--text-muted);"><div style="font-size:3rem;margin-bottom:1rem;opacity:0.3;">♡</div><p>Votre wishlist est vide.<br><small>Cliquez sur ♡ sur une montre pour l\'ajouter.</small></p></div>';
+  } else {
+    grid.innerHTML = '';
+    wl.forEach(id => {
+      const w = watches.find(x => String(x.id) === String(id));
+      if (!w) return;
+      const imgHtml = w.images && w.images[0] ? `<img src="${w.images[0]}" alt="${w.name}" style="width:100%;height:100%;object-fit:cover;">` : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem;">⌚</div>`;
+      const card = document.createElement('div');
+      card.style.cssText = 'border:1px solid var(--beige-dark);background:white;cursor:pointer;transition:transform 0.3s;';
+      card.onmouseenter = () => card.style.transform = 'translateY(-4px)';
+      card.onmouseleave = () => card.style.transform = '';
+      card.innerHTML = `
+        <div style="aspect-ratio:3/4;background:var(--beige);overflow:hidden;">${imgHtml}</div>
+        <div style="padding:1rem;">
+          <p style="font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;">${w.brand}</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--noir);margin-bottom:0.5rem;">${w.name}</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--noir);margin-bottom:1rem;">${w.price} €</p>
+          <div style="display:flex;gap:0.5rem;">
+            <button onclick="closeWishlist();openDetail('${w.id}')" style="flex:1;padding:9px;background:var(--noir);color:white;border:none;font-family:'Jost',sans-serif;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;">Voir</button>
+            <button onclick="addToCart('${w.id}');closeWishlist();" style="flex:1;padding:9px;background:var(--gold);color:var(--noir);border:none;font-family:'Jost',sans-serif;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;">+ Panier</button>
+            <button onclick="toggleWishlist('${w.id}');openWishlist();" style="width:36px;height:36px;background:transparent;border:1px solid var(--beige-dark);cursor:pointer;font-size:1rem;color:#c0392b;" title="Retirer">✕</button>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeWishlist() {
+  document.getElementById('wishlist-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ══════════════════════════════════════════════
+// GUIDE TAILLES BRACELET
+// ══════════════════════════════════════════════
+function openGuide() {
+  document.getElementById('guide-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeGuide() {
+  document.getElementById('guide-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ══════════════════════════════════════════════
+// NOTRE HISTOIRE
+// ══════════════════════════════════════════════
+function openHistoire() {
+  document.getElementById('histoire-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeHistoire() {
+  document.getElementById('histoire-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ══════════════════════════════════════════════
+// SEIKO MOD FORM
+// ══════════════════════════════════════════════
+function openSeikoMod() {
+  document.getElementById('seikomod-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeSeikoMod() {
+  document.getElementById('seikomod-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+async function submitSeikoMod() {
+  const nom = document.getElementById('sm-nom').value.trim();
+  const email = document.getElementById('sm-email').value.trim();
+  const tel = document.getElementById('sm-tel').value.trim();
+  const adresse = document.getElementById('sm-adresse').value.trim();
+  const note = document.getElementById('sm-note').value.trim();
+  const photoInput = document.getElementById('sm-photo');
+  const errEl = document.getElementById('sm-error');
+  const successEl = document.getElementById('sm-success');
+  const btn = document.getElementById('sm-submit-btn');
+
+  errEl.style.display = 'none';
+  if (!nom || !email || !tel) {
+    errEl.textContent = 'Veuillez remplir au minimum votre nom, email et téléphone.';
+    errEl.style.display = 'block'; return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours…';
+
+  // Build EmailJS params
+  const params = {
+    to_email: 'atelierhorloger.pros@gmail.com',
+    subject: '🕰 Nouvelle demande Seiko Mod — ' + nom,
+    nom, email, tel, adresse: adresse || 'Non renseignée', note: note || 'Aucune note.',
+    message: `Nouvelle demande Seiko Mod Custom\n\nNom: ${nom}\nEmail: ${email}\nTél: ${tel}\nAdresse: ${adresse||'—'}\n\nNotes / modifications souhaitées:\n${note||'Aucune'}`
+  };
+
+  try {
+    await emailjs.send('service_jhmzj3m', 'template_seikomod', params);
+    btn.style.display = 'none';
+    successEl.style.display = 'block';
+    // Clear form
+    ['sm-nom','sm-email','sm-tel','sm-adresse','sm-note'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+    document.getElementById('sm-photo-label').textContent = '📷 Cliquez pour ajouter une photo de référence';
+  } catch(err) {
+    errEl.textContent = 'Erreur envoi : ' + (err.text || err.message || 'Veuillez réessayer.');
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = '✦ Envoyer ma demande';
+  }
+}
+
+function smPhotoSelected(input) {
+  const label = document.getElementById('sm-photo-label');
+  if (input.files && input.files[0]) {
+    label.textContent = '✓ Photo sélectionnée : ' + input.files[0].name;
+    label.style.color = 'var(--gold)';
+  }
+}
+
+// ══════════════════════════════════════════════
+// PROGRAMME DE FIDÉLITÉ
+// ══════════════════════════════════════════════
+function getFidelite() {
+  try { return JSON.parse(localStorage.getItem('ah_fidelite') || '{"points":0,"history":[]}'); } catch { return {points:0,history:[]}; }
+}
+function saveFidelite(d) { localStorage.setItem('ah_fidelite', JSON.stringify(d)); }
+function addPoints(amount, reason) {
+  const pts = Math.floor(amount);
+  const f = getFidelite();
+  f.points += pts;
+  f.history.unshift({ pts, reason, date: new Date().toLocaleDateString('fr-FR') });
+  if (f.history.length > 20) f.history.pop();
+  saveFidelite(f);
+  updateFideliteHeader();
+}
+function updateFideliteHeader() {
+  const f = getFidelite();
+  const el = document.getElementById('header-points');
+  if (el) el.textContent = f.points + ' pts';
+}
+function getFideliteLevel(pts) {
+  if (pts >= 5000) return { name: 'Platine', icon: '💎', color: '#a8c0d6', next: null, nextPts: null };
+  if (pts >= 2000) return { name: 'Or', icon: '🥇', color: 'var(--gold)', next: 'Platine', nextPts: 5000 };
+  if (pts >= 500) return { name: 'Argent', icon: '🥈', color: '#888', next: 'Or', nextPts: 2000 };
+  return { name: 'Bronze', icon: '🥉', color: '#cd7f32', next: 'Argent', nextPts: 500 };
+}
+function openFidelite() {
+  const f = getFidelite();
+  const level = getFideliteLevel(f.points);
+  const overlay = document.getElementById('fidelite-overlay');
+
+  document.getElementById('fd-points').textContent = f.points;
+  document.getElementById('fd-level').textContent = level.icon + ' ' + level.name;
+  document.getElementById('fd-level').style.color = level.color;
+
+  const prog = document.getElementById('fd-progress');
+  if (level.next) {
+    const pct = Math.min(100, Math.round(f.points / level.nextPts * 100));
+    prog.innerHTML = `<div style="margin-bottom:0.5rem;font-size:0.7rem;color:var(--text-muted);">Vers le niveau <strong>${level.next}</strong> : ${f.points} / ${level.nextPts} pts</div>
+    <div style="height:6px;background:var(--beige-dark);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:var(--gold);transition:width 0.6s;"></div></div>`;
+  } else {
+    prog.innerHTML = `<div style="font-size:0.75rem;color:var(--gold);">✦ Niveau maximum atteint — Merci pour votre fidélité !</div>`;
+  }
+
+  const hist = document.getElementById('fd-history');
+  if (!f.history.length) {
+    hist.innerHTML = '<p style="font-size:0.75rem;color:var(--text-muted);text-align:center;padding:1.5rem;">Aucune transaction pour le moment.<br>Chaque euro dépensé = 1 point !</p>';
+  } else {
+    hist.innerHTML = f.history.map(h => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid var(--beige-dark);">
+        <div><p style="font-size:0.78rem;color:var(--noir);">${h.reason}</p><p style="font-size:0.65rem;color:var(--text-muted);">${h.date}</p></div>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);">+${h.pts} pts</span>
+      </div>`).join('');
+  }
+
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeFidelite() {
+  document.getElementById('fidelite-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ── Patch: add points when payment succeeds ──
+const _origStripeConfirm = stripeConfirmPayment;
+// (Points will be added via a hook below)
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateWishlistCount();
+  updateFideliteHeader();
+});
+
 
 // ══════════════════════════════════════════════
 // STRIPE PAYMENT
@@ -7332,7 +7597,8 @@ async function stripeConfirmPayment() {
       btnText.textContent = 'Payer maintenant';
       spinner.style.display = 'none';
     } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-      // Payment success
+      // Payment success — add fidélité points
+      addPoints(_pendingOrderTotal, 'Commande #' + Date.now().toString(36).toUpperCase());
       closePayment();
       cart = [];
       saveCart();
@@ -7351,6 +7617,485 @@ async function stripeConfirmPayment() {
 }
 
 </script>
+
+<!-- ══════════════════════════════════════════════
+     SEIKO MOD OVERLAY
+══════════════════════════════════════════════ -->
+<style>
+.seikomod-overlay {
+  display:none; position:fixed; inset:0; z-index:480;
+  background:rgba(5,5,5,0.95); backdrop-filter:blur(16px);
+  align-items:center; justify-content:center; overflow-y:auto;
+}
+.seikomod-overlay.active { display:flex; }
+.seikomod-box {
+  background:var(--blanc); max-width:600px; width:94%; margin:2rem auto;
+  position:relative; animation:luxeIn 0.45s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.seikomod-header {
+  background:var(--noir); padding:2rem 2.5rem 1.75rem; text-align:center; position:relative;
+}
+.seikomod-close {
+  position:absolute; top:1.1rem; right:1.4rem;
+  background:none; border:none; color:rgba(255,255,255,0.4);
+  font-size:1.3rem; cursor:pointer; transition:color 0.2s;
+}
+.seikomod-close:hover { color:white; }
+.seikomod-body { padding:2rem 2.5rem 2.5rem; }
+.seikomod-field { margin-bottom:1.1rem; }
+.seikomod-field label { display:block; font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gris-mid); margin-bottom:0.4rem; }
+.seikomod-field input, .seikomod-field textarea {
+  width:100%; padding:11px 14px; border:1px solid var(--beige-dark);
+  background:var(--beige); font-family:'Jost',sans-serif; font-size:0.9rem;
+  outline:none; transition:border-color 0.2s; color:var(--noir);
+}
+.seikomod-field input:focus, .seikomod-field textarea:focus { border-color:var(--gold); }
+.seikomod-field textarea { resize:vertical; min-height:90px; }
+.sm-file-zone {
+  border:1px dashed rgba(184,151,106,0.4); padding:1.5rem; text-align:center;
+  cursor:pointer; transition:all 0.3s; background:rgba(184,151,106,0.03);
+}
+.sm-file-zone:hover { border-color:var(--gold); background:rgba(184,151,106,0.06); }
+.sm-file-zone input { display:none; }
+.sm-file-zone p { font-size:0.82rem; color:var(--gris-mid); margin-bottom:0.25rem; }
+.sm-file-zone span { font-size:0.65rem; color:var(--text-muted); }
+.sm-price-badge {
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--beige); border:1px solid var(--beige-dark); padding:1rem 1.25rem;
+  margin-bottom:1.5rem;
+}
+.sm-price-badge-label { font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-muted); }
+.sm-price-badge-price { font-family:'Cormorant Garamond',serif; font-size:1.5rem; color:var(--noir); }
+.sm-price-badge-note { font-size:0.7rem; color:var(--gold); margin-top:0.15rem; }
+@media (max-width:600px) { .seikomod-body { padding:1.5rem; } .seikomod-header { padding:1.5rem; } }
+</style>
+
+<div class="seikomod-overlay" id="seikomod-overlay" onclick="if(event.target===this)closeSeikoMod()">
+  <div class="seikomod-box">
+    <div class="seikomod-header">
+      <button class="seikomod-close" onclick="closeSeikoMod()">✕</button>
+      <p style="font-size:0.6rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;">Atelier Exclusif</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:white;line-height:1.2;">Envoyez-nous la montre<br><em style="font-style:italic;color:var(--gold-light);">que vous voulez</em></h2>
+      <p style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-top:0.75rem;line-height:1.6;">Notre atelier réalise votre Seiko Mod sur mesure.<br>Partagez votre vision, nous créons la pièce.</p>
+    </div>
+    <div class="seikomod-body">
+
+      <!-- Prix -->
+      <div class="sm-price-badge">
+        <div>
+          <p class="sm-price-badge-label">Tarif Seiko Mod</p>
+          <p class="sm-price-badge-note">Prix sur devis via mail ou WhatsApp</p>
+        </div>
+        <div style="text-align:right;">
+          <p class="sm-price-badge-price">À partir de 230 €</p>
+        </div>
+      </div>
+
+      <!-- Photo de référence -->
+      <div class="seikomod-field">
+        <label>Photo de la montre souhaitée *</label>
+        <div class="sm-file-zone" onclick="document.getElementById('sm-photo').click()">
+          <input type="file" id="sm-photo" accept="image/*" onchange="smPhotoSelected(this)">
+          <p id="sm-photo-label">📷 Cliquez pour ajouter une photo de référence</p>
+          <span>JPG, PNG — photo d'inspiration ou de modèle exact</span>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="seikomod-field">
+        <label>Modifications souhaitées (optionnel)</label>
+        <textarea id="sm-note" placeholder="Ex: Cadran bleu sunray, lunette noire, bracelet jubilé acier, aiguilles dorées…"></textarea>
+      </div>
+
+      <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(184,151,106,0.3),transparent);margin:1.25rem 0;"></div>
+
+      <!-- Coordonnées -->
+      <p style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;">Vos coordonnées</p>
+
+      <div class="seikomod-field">
+        <label>Prénom & Nom *</label>
+        <input type="text" id="sm-nom" placeholder="Jean Dupont">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div class="seikomod-field">
+          <label>Email *</label>
+          <input type="email" id="sm-email" placeholder="votre@email.com">
+        </div>
+        <div class="seikomod-field">
+          <label>Téléphone *</label>
+          <input type="tel" id="sm-tel" placeholder="+33 6 00 00 00 00">
+        </div>
+      </div>
+      <div class="seikomod-field">
+        <label>Adresse de livraison</label>
+        <input type="text" id="sm-adresse" placeholder="12 rue de la Montre, 75001 Paris">
+      </div>
+
+      <p id="sm-error" style="display:none;font-size:0.73rem;color:#c0392b;margin-bottom:0.75rem;padding:8px 12px;background:rgba(192,57,43,0.07);border-left:2px solid #c0392b;"></p>
+      <div id="sm-success" style="display:none;text-align:center;padding:2rem;">
+        <div style="font-size:3rem;margin-bottom:1rem;">⌚</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--noir);margin-bottom:0.5rem;">Demande <em style="font-style:italic;color:var(--gold);">envoyée !</em></p>
+        <p style="font-size:0.8rem;color:var(--text-muted);line-height:1.7;">Notre atelier a bien reçu votre demande.<br>Nous vous contacterons sous 24h par email ou WhatsApp pour confirmer votre projet et le devis.</p>
+        <div style="margin-top:1.25rem;display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;">
+          <a href="https://wa.me/33767432827" target="_blank" style="padding:11px 22px;background:#25D366;color:white;text-decoration:none;font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;">💬 WhatsApp</a>
+          <button onclick="closeSeikoMod()" style="padding:11px 22px;background:var(--noir);color:white;border:none;font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;">Fermer</button>
+        </div>
+      </div>
+
+      <button id="sm-submit-btn" onclick="submitSeikoMod()" style="width:100%;padding:15px;background:var(--noir);color:white;border:none;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;transition:background 0.3s;" onmouseover="this.style.background='var(--gold-dark)'" onmouseout="this.style.background='var(--noir)'">
+        ✦ Envoyer ma demande
+      </button>
+      <p style="text-align:center;font-size:0.65rem;color:var(--text-muted);margin-top:0.75rem;">Ou contactez-nous directement via <a href="https://wa.me/33767432827" style="color:var(--gold);text-decoration:none;" target="_blank">WhatsApp</a></p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     WISHLIST OVERLAY
+══════════════════════════════════════════════ -->
+<style>
+.wishlist-overlay {
+  display:none; position:fixed; inset:0; z-index:470;
+  background:rgba(5,5,5,0.92); backdrop-filter:blur(10px);
+  align-items:flex-start; justify-content:center; overflow-y:auto;
+  padding:2rem 1rem;
+}
+.wishlist-overlay.active { display:flex; }
+.wishlist-box { background:var(--blanc); max-width:900px; width:100%; margin:auto; animation:luxeIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+.wishlist-header {
+  background:var(--noir); padding:1.75rem 2.5rem;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.wishlist-header-title { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:300; color:white; }
+.wishlist-header-title span { color:var(--gold-light); font-style:italic; }
+.wishlist-close { background:none; border:none; color:rgba(255,255,255,0.4); font-size:1.3rem; cursor:pointer; transition:color 0.2s; }
+.wishlist-close:hover { color:white; }
+</style>
+
+<div class="wishlist-overlay" id="wishlist-overlay" onclick="if(event.target===this)closeWishlist()">
+  <div class="wishlist-box">
+    <div class="wishlist-header">
+      <h2 class="wishlist-header-title">Ma <span>Wishlist</span></h2>
+      <button class="wishlist-close" onclick="closeWishlist()">✕</button>
+    </div>
+    <div id="wishlist-grid" style="padding:2rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem;"></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GUIDE TAILLES BRACELET OVERLAY
+══════════════════════════════════════════════ -->
+<style>
+.guide-overlay {
+  display:none; position:fixed; inset:0; z-index:460;
+  background:rgba(5,5,5,0.95); backdrop-filter:blur(14px);
+  align-items:flex-start; justify-content:center; overflow-y:auto; padding:2rem 1rem;
+}
+.guide-overlay.active { display:flex; }
+.guide-box { background:var(--blanc); max-width:820px; width:100%; margin:auto; animation:luxeIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+.guide-header { background:var(--noir); padding:1.75rem 2.5rem; display:flex; align-items:center; justify-content:space-between; }
+.guide-close { background:none; border:none; color:rgba(255,255,255,0.4); font-size:1.3rem; cursor:pointer; transition:color 0.2s; }
+.guide-close:hover { color:white; }
+.guide-body { padding:2.5rem; }
+.guide-row { display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:2rem; }
+@media (max-width:600px) { .guide-row { grid-template-columns:1fr; } .guide-body { padding:1.5rem; } }
+.guide-size-card {
+  border:1px solid var(--beige-dark); padding:1.5rem; text-align:center;
+  transition:border-color 0.25s;
+}
+.guide-size-card:hover { border-color:var(--gold); }
+.guide-size-num { font-family:'Cormorant Garamond',serif; font-size:2.5rem; color:var(--gold); line-height:1; margin-bottom:0.5rem; }
+.guide-size-label { font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gris-mid); margin-bottom:0.5rem; }
+.guide-size-desc { font-size:0.78rem; color:var(--text-muted); line-height:1.65; }
+.guide-tip { background:rgba(184,151,106,0.07); border-left:3px solid var(--gold); padding:1rem 1.25rem; margin-bottom:1.5rem; font-size:0.8rem; color:var(--text-main); line-height:1.7; }
+.guide-measure-steps { counter-reset:step; }
+.guide-measure-step { display:flex; gap:1rem; margin-bottom:1rem; align-items:flex-start; }
+.guide-step-num { width:28px; height:28px; border-radius:50%; background:var(--noir); color:white; display:flex; align-items:center; justify-content:center; font-size:0.72rem; font-family:'Jost',sans-serif; flex-shrink:0; margin-top:2px; }
+.guide-step-text { font-size:0.8rem; color:var(--text-muted); line-height:1.65; }
+.guide-step-text strong { color:var(--noir); }
+</style>
+
+<div class="guide-overlay" id="guide-overlay" onclick="if(event.target===this)closeGuide()">
+  <div class="guide-box">
+    <div class="guide-header">
+      <div>
+        <p style="font-size:0.58rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem;">Conseils d'expert</p>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;color:white;">Guide des <em style="font-style:italic;color:var(--gold-light);">Tailles de Bracelet</em></h2>
+      </div>
+      <button class="guide-close" onclick="closeGuide()">✕</button>
+    </div>
+    <div class="guide-body">
+
+      <div class="guide-tip">
+        💡 <strong>Astuce :</strong> Un bracelet bien ajusté doit pouvoir glisser légèrement, mais jamais tomber du poignet. Laissez passer un doigt entre le bracelet et votre poignet pour trouver la taille idéale.
+      </div>
+
+      <p style="font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;">Correspondance taille / tour de poignet</p>
+      <div class="guide-row">
+        <div class="guide-size-card">
+          <div class="guide-size-num">XS</div>
+          <div class="guide-size-label">Moins de 15 cm</div>
+          <div class="guide-size-desc">Poignet très fin. Recommandé : boîtier de 36mm ou moins. Retrait de 3 à 4 maillons généralement.</div>
+        </div>
+        <div class="guide-size-card">
+          <div class="guide-size-num">S</div>
+          <div class="guide-size-label">15 – 16,5 cm</div>
+          <div class="guide-size-desc">Poignet fin. Recommandé : boîtier de 36 à 39mm. Retrait de 2 à 3 maillons.</div>
+        </div>
+        <div class="guide-size-card">
+          <div class="guide-size-num">M</div>
+          <div class="guide-size-label">16,5 – 18 cm</div>
+          <div class="guide-size-desc">Taille standard. Compatible avec tous nos modèles 38 à 41mm. Généralement prêt à porter.</div>
+        </div>
+        <div class="guide-size-card">
+          <div class="guide-size-num">L</div>
+          <div class="guide-size-label">18 – 20 cm</div>
+          <div class="guide-size-desc">Poignet large. Recommandé : boîtier 41mm+. Peu ou pas de retrait nécessaire.</div>
+        </div>
+        <div class="guide-size-card" style="grid-column:1/-1;">
+          <div class="guide-size-num">XL</div>
+          <div class="guide-size-label">Plus de 20 cm</div>
+          <div class="guide-size-desc">Grand poignet. Nos bracelets métal livrent avec le maximum de maillons — aucun retrait, ou ajout de maillons supplémentaires possible. Contactez-nous.</div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(184,151,106,0.25),transparent);margin:2rem 0;"></div>
+
+      <p style="font-size:0.62rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;">Comment mesurer votre poignet</p>
+      <div class="guide-measure-steps">
+        <div class="guide-measure-step">
+          <div class="guide-step-num">1</div>
+          <div class="guide-step-text"><strong>Prenez un ruban de couture</strong> ou une ficelle souple. À défaut, utilisez une bande de papier.</div>
+        </div>
+        <div class="guide-measure-step">
+          <div class="guide-step-num">2</div>
+          <div class="guide-step-text"><strong>Enroulez autour du poignet</strong> là où vous portez votre montre, juste au-dessus de l'os du poignet.</div>
+        </div>
+        <div class="guide-measure-step">
+          <div class="guide-step-num">3</div>
+          <div class="guide-step-text"><strong>Notez la mesure en centimètres</strong> et reportez-vous au tableau ci-dessus.</div>
+        </div>
+        <div class="guide-measure-step">
+          <div class="guide-step-num">4</div>
+          <div class="guide-step-text"><strong>En cas de doute</strong>, prenez la taille supérieure — les maillons se retirent facilement, l'ajout est plus rare.</div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(184,151,106,0.25),transparent);margin:2rem 0;"></div>
+      <p style="font-size:0.75rem;color:var(--text-muted);text-align:center;line-height:1.7;">Une question ? Notre atelier ajuste votre bracelet gratuitement à la commande.<br>Précisez simplement votre tour de poignet dans le champ "notes" lors de votre commande.</p>
+      <div style="display:flex;justify-content:center;margin-top:1.5rem;">
+        <a href="https://wa.me/33767432827" target="_blank" style="padding:13px 32px;background:var(--noir);color:white;text-decoration:none;font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;display:inline-flex;align-items:center;gap:0.5rem;">💬 Demander un ajustement</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     NOTRE HISTOIRE OVERLAY
+══════════════════════════════════════════════ -->
+<style>
+.histoire-overlay {
+  display:none; position:fixed; inset:0; z-index:455;
+  background:rgba(5,5,5,0.97); backdrop-filter:blur(16px);
+  align-items:flex-start; justify-content:center; overflow-y:auto;
+}
+.histoire-overlay.active { display:flex; }
+.histoire-box { background:var(--blanc); max-width:860px; width:100%; margin:2rem auto; animation:luxeIn 0.45s cubic-bezier(0.16,1,0.3,1) forwards; }
+.histoire-hero {
+  background:var(--noir); padding:5rem 3rem 4rem;
+  text-align:center; position:relative; overflow:hidden;
+}
+.histoire-hero::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse at 60% 40%, rgba(184,151,106,0.1) 0%, transparent 65%);
+}
+.histoire-close {
+  position:absolute; top:1.5rem; right:1.5rem;
+  background:none; border:1px solid rgba(184,151,106,0.3); color:rgba(255,255,255,0.5);
+  width:40px; height:40px; font-size:1.1rem; cursor:pointer; transition:all 0.2s;
+  display:flex; align-items:center; justify-content:center; z-index:5;
+}
+.histoire-close:hover { border-color:var(--gold); color:white; }
+.histoire-body { padding:3.5rem; }
+.histoire-chapter { margin-bottom:3rem; }
+.histoire-chapter-num { font-size:0.58rem; letter-spacing:0.45em; text-transform:uppercase; color:var(--gold); margin-bottom:0.4rem; }
+.histoire-chapter-title { font-family:'Cormorant Garamond',serif; font-size:1.7rem; font-weight:300; color:var(--noir); margin-bottom:1rem; }
+.histoire-chapter-title em { font-style:italic; color:var(--gold); }
+.histoire-chapter-text { font-size:0.82rem; color:var(--text-muted); line-height:1.9; }
+.histoire-values { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin:2.5rem 0; }
+.histoire-value { text-align:center; padding:1.5rem 1rem; border:1px solid var(--beige-dark); }
+.histoire-value-icon { font-size:2rem; margin-bottom:0.75rem; }
+.histoire-value-title { font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--noir); margin-bottom:0.4rem; }
+.histoire-value-desc { font-size:0.73rem; color:var(--text-muted); line-height:1.65; }
+@media (max-width:600px) {
+  .histoire-body { padding:1.75rem; }
+  .histoire-values { grid-template-columns:1fr; }
+  .histoire-hero { padding:3.5rem 1.5rem 3rem; }
+}
+</style>
+
+<div class="histoire-overlay" id="histoire-overlay" onclick="if(event.target===this)closeHistoire()">
+  <div class="histoire-box">
+    <div class="histoire-hero">
+      <button class="histoire-close" onclick="closeHistoire()">✕</button>
+      <p style="font-size:0.62rem;letter-spacing:0.5em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;position:relative;z-index:2;">Depuis 2018</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:300;color:white;line-height:1.1;margin-bottom:1rem;position:relative;z-index:2;">L'art de la montre<br><em style="font-style:italic;color:var(--gold-light);">à la française</em></h2>
+      <p style="font-size:0.82rem;color:rgba(255,255,255,0.4);line-height:1.7;max-width:520px;margin:0 auto;position:relative;z-index:2;">Une maison fondée par passion pour la haute horlogerie accessible. Chaque pièce raconte une histoire.</p>
+    </div>
+    <div class="histoire-body">
+
+      <div class="histoire-chapter">
+        <p class="histoire-chapter-num">Chapitre 01</p>
+        <h3 class="histoire-chapter-title">Les origines de <em>l'Atelier</em></h3>
+        <p class="histoire-chapter-text">Atelier Horloger est né d'une passion profonde pour les montres mécaniques et d'une conviction simple : la beauté horlogère ne devrait pas rester réservée à une élite. Fondé en 2018 dans le nord de la France, notre atelier a débuté dans un petit garage, avec deux établis, une loupe et des années de passion accumulées.</p>
+        <p class="histoire-chapter-text" style="margin-top:1rem;">Nos débuts ont été modestes, mais notre engagement envers la qualité, lui, ne l'a jamais été. Chaque montre que nous sélectionnons, modifions ou créons passe entre les mains de nos artisans avant de rejoindre votre poignet.</p>
+      </div>
+
+      <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(184,151,106,0.25),transparent);margin:2.5rem 0;"></div>
+
+      <div class="histoire-chapter">
+        <p class="histoire-chapter-num">Chapitre 02</p>
+        <h3 class="histoire-chapter-title">Le <em>Seiko Mod</em> — notre spécialité</h3>
+        <p class="histoire-chapter-text">En 2020, nous nous spécialisons dans le Seiko Mod : l'art de transformer une montre Seiko de base en une pièce unique, personnalisée, qui rivalise visuellement avec des montres 10 fois plus chères. Cadrans, aiguilles, lunettes, bracelets — chaque composant est soigneusement sélectionné et assemblé à la main dans notre atelier.</p>
+        <p class="histoire-chapter-text" style="margin-top:1rem;">Aujourd'hui, nous avons réalisé plus de 800 montres custom, chacune aussi unique que son propriétaire.</p>
+      </div>
+
+      <div class="histoire-values">
+        <div class="histoire-value">
+          <div class="histoire-value-icon">🔬</div>
+          <p class="histoire-value-title">Précision</p>
+          <p class="histoire-value-desc">Chaque composant est inspecté et assemblé avec une précision d'orfèvre.</p>
+        </div>
+        <div class="histoire-value">
+          <div class="histoire-value-icon">🤝</div>
+          <p class="histoire-value-title">Confiance</p>
+          <p class="histoire-value-desc">Plus de 800 clients satisfaits. Notre réputation est notre seule publicité.</p>
+        </div>
+        <div class="histoire-value">
+          <div class="histoire-value-icon">✦</div>
+          <p class="histoire-value-title">Passion</p>
+          <p class="histoire-value-desc">L'horlogerie n'est pas un métier pour nous — c'est une vocation quotidienne.</p>
+        </div>
+      </div>
+
+      <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(184,151,106,0.25),transparent);margin:2.5rem 0;"></div>
+
+      <div class="histoire-chapter" style="margin-bottom:2rem;">
+        <p class="histoire-chapter-num">Chapitre 03</p>
+        <h3 class="histoire-chapter-title">Notre <em>engagement</em> aujourd'hui</h3>
+        <p class="histoire-chapter-text">Chaque montre vendue ou créée est accompagnée d'un suivi personnalisé. Nous sommes disponibles 7j/7 via WhatsApp pour répondre à vos questions avant, pendant et après votre achat. Parce qu'une belle montre mérite un service à sa hauteur.</p>
+      </div>
+
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+        <button onclick="closeHistoire();openSeikoMod()" style="padding:13px 32px;background:var(--noir);color:white;border:none;font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background 0.3s;" onmouseover="this.style.background='var(--gold-dark)'" onmouseout="this.style.background='var(--noir)'">Commander un Seiko Mod</button>
+        <a href="https://wa.me/33767432827" target="_blank" style="padding:13px 32px;background:transparent;color:var(--gold);text-decoration:none;font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;border:1px solid var(--gold);display:inline-flex;align-items:center;gap:0.5rem;">💬 Nous écrire</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PROGRAMME DE FIDÉLITÉ OVERLAY
+══════════════════════════════════════════════ -->
+<style>
+.fidelite-overlay {
+  display:none; position:fixed; inset:0; z-index:450;
+  background:rgba(5,5,5,0.93); backdrop-filter:blur(12px);
+  align-items:center; justify-content:center; overflow-y:auto; padding:2rem 1rem;
+}
+.fidelite-overlay.active { display:flex; }
+.fidelite-box {
+  background:var(--blanc); max-width:520px; width:100%; margin:auto;
+  animation:luxeIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.fidelite-header { background:var(--noir); padding:2rem 2.5rem; position:relative; text-align:center; }
+.fidelite-close { position:absolute; top:1.1rem; right:1.4rem; background:none; border:none; color:rgba(255,255,255,0.4); font-size:1.3rem; cursor:pointer; transition:color 0.2s; }
+.fidelite-close:hover { color:white; }
+.fidelite-body { padding:2rem 2.5rem 2.5rem; }
+.fidelite-points-big { text-align:center; padding:1.5rem; border:1px solid var(--beige-dark); background:var(--beige); margin-bottom:1.5rem; }
+.fidelite-rewards { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1.5rem; }
+.fidelite-reward { border:1px solid var(--beige-dark); padding:1rem; text-align:center; background:white; }
+.fidelite-reward-pts { font-family:'Cormorant Garamond',serif; font-size:1.25rem; color:var(--gold); }
+.fidelite-reward-label { font-size:0.68rem; color:var(--text-muted); margin-top:0.25rem; line-height:1.5; }
+@media (max-width:480px) { .fidelite-body { padding:1.5rem; } .fidelite-rewards { grid-template-columns:1fr; } }
+</style>
+
+<div class="fidelite-overlay" id="fidelite-overlay" onclick="if(event.target===this)closeFidelite()">
+  <div class="fidelite-box">
+    <div class="fidelite-header">
+      <button class="fidelite-close" onclick="closeFidelite()">✕</button>
+      <p style="font-size:0.6rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem;">Programme Exclusif</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:white;">Fidélité <em style="font-style:italic;color:var(--gold-light);">& Récompenses</em></h2>
+      <p style="font-size:0.75rem;color:rgba(255,255,255,0.35);margin-top:0.5rem;">1 euro dépensé = 1 point de fidélité</p>
+    </div>
+    <div class="fidelite-body">
+
+      <div class="fidelite-points-big">
+        <p style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.35rem;">Votre solde</p>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:var(--gold);line-height:1;" id="fd-points">0</p>
+        <p style="font-size:0.72rem;color:var(--text-muted);margin-top:0.25rem;">points accumulés</p>
+        <p style="font-size:0.85rem;font-weight:500;color:var(--noir);margin-top:0.5rem;" id="fd-level">🥉 Bronze</p>
+        <div style="margin-top:1rem;" id="fd-progress"></div>
+      </div>
+
+      <p style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem;">Récompenses disponibles</p>
+      <div class="fidelite-rewards">
+        <div class="fidelite-reward">
+          <div style="font-size:1.5rem;margin-bottom:0.4rem;">🎁</div>
+          <p class="fidelite-reward-pts">200 pts</p>
+          <p class="fidelite-reward-label">-10 € sur votre prochaine commande</p>
+        </div>
+        <div class="fidelite-reward">
+          <div style="font-size:1.5rem;margin-bottom:0.4rem;">⌚</div>
+          <p class="fidelite-reward-pts">500 pts</p>
+          <p class="fidelite-reward-label">Ajustement bracelet offert</p>
+        </div>
+        <div class="fidelite-reward">
+          <div style="font-size:1.5rem;margin-bottom:0.4rem;">📦</div>
+          <p class="fidelite-reward-pts">800 pts</p>
+          <p class="fidelite-reward-label">Livraison express offerte</p>
+        </div>
+        <div class="fidelite-reward">
+          <div style="font-size:1.5rem;margin-bottom:0.4rem;">💎</div>
+          <p class="fidelite-reward-pts">2000 pts</p>
+          <p class="fidelite-reward-label">-100 € sur un Seiko Mod custom</p>
+        </div>
+      </div>
+
+      <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(184,151,106,0.25),transparent);margin:1.25rem 0;"></div>
+      <p style="font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem;">Historique de vos points</p>
+      <div id="fd-history" style="max-height:200px;overflow-y:auto;"></div>
+
+      <p style="font-size:0.68rem;color:var(--text-muted);text-align:center;margin-top:1.25rem;line-height:1.7;">Pour utiliser vos points, contactez-nous via <a href="https://wa.me/33767432827" style="color:var(--gold);text-decoration:none;" target="_blank">WhatsApp</a> ou par email.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- CRISP LIVE CHAT -->
+<script type="text/javascript">
+  window.$crisp=[];
+  window.CRISP_WEBSITE_ID="5311db6d-454c-448d-9411-7b96a37ecf3d";
+  (function(){var d=document;var s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
+  // Personnalisation couleur Crisp
+  window.$crisp.push(["set", "message:text", ["Bonjour ! Comment puis-je vous aider pour votre montre ? 🕰"]]);
+</script>
+
+<!-- Guide tailles accessible depuis la fiche produit aussi -->
+<style>
+.btn-guide-tailles {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--gold); background:none; border:none; cursor:pointer;
+  font-family:'Jost',sans-serif; padding:0; text-decoration:underline;
+  transition:opacity 0.2s;
+}
+.btn-guide-tailles:hover { opacity:0.7; }
+</style>
 
 </body>
 </html>
