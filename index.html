@@ -7,6 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8cG9seWdvbiBwb2ludHM9IjUwLDQgOTYsNTAgNTAsOTYgNCw1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjg5NzZhIiBzdHJva2Utd2lkdGg9IjQiLz4KICA8cG9seWdvbiBwb2ludHM9IjUwLDE0IDg2LDUwIDUwLDg2IDE0LDUwIiBmaWxsPSIjYjg5NzZhIiBmaWxsLW9wYWNpdHk9IjAuMTIiLz4KICA8dGV4dCB4PSI1MCIgeT0iNjMiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJHZW9yZ2lhLHNlcmlmIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iNDAwIiBsZXR0ZXItc3BhY2luZz0iMiIgZmlsbD0iI2I4OTc2YSI+QUg8L3RleHQ+Cjwvc3ZnPg==">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
 <script>emailjs.init("8eJYULz4e98AmhSOZ");</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -3747,72 +3748,41 @@ footer {
 
 <!-- ── PAYMENT MODAL ── -->
 <div class="payment-overlay" id="payment-overlay">
-  <div class="payment-box">
+  <div class="payment-box" style="max-width:480px;width:100%;max-height:90vh;overflow-y:auto;">
     <div class="payment-header">
       <button class="payment-close" onclick="closePayment()">✕</button>
       <p class="payment-eyebrow">Paiement sécurisé</p>
-      <h2 class="payment-title">Choisissez votre <em>mode de paiement</em></h2>
+      <h2 class="payment-title">Règlement <em>par carte</em></h2>
     </div>
     <div class="payment-summary">
       <span class="payment-summary-label">Total commande</span>
       <span class="payment-summary-amount" id="payment-total">0,00 €</span>
     </div>
-    <div class="payment-methods">
-      <p class="payment-method-label">Paiement sécurisé via Stripe</p>
 
-      <!-- Stripe CB / Apple Pay / Google Pay -->
-      <button class="btn-payment" onclick="alert('Intégration Stripe en cours — vous serez redirigé vers le paiement sécurisé.')">
-        <div class="btn-payment-icon" style="background:#635bff;">
-          <svg viewBox="0 0 24 24" fill="white" width="22" xmlns="http://www.w3.org/2000/svg"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>
-        </div>
-        <div class="btn-payment-info">
-          <div class="btn-payment-name">Carte bancaire</div>
-          <div class="btn-payment-desc">Visa · Mastercard · American Express · CB</div>
-        </div>
-        <span class="btn-payment-arrow">→</span>
-      </button>
-
-      <!-- Apple Pay -->
-      <button class="btn-payment" onclick="alert('Intégration Stripe en cours — Apple Pay disponible prochainement.')">
-        <div class="btn-payment-icon" style="background:#000;">
-          <svg viewBox="0 0 24 24" fill="white" width="22" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        </div>
-        <div class="btn-payment-info">
-          <div class="btn-payment-name">Apple Pay</div>
-          <div class="btn-payment-desc">Paiement rapide depuis vos appareils Apple</div>
-        </div>
-        <span class="payment-soon-badge">Bientôt</span>
-      </button>
-
-      <!-- Google Pay -->
-      <button class="btn-payment" onclick="alert('Intégration Stripe en cours — Google Pay disponible prochainement.')">
-        <div class="btn-payment-icon" style="background:#fff;border:1px solid #e0e0e0;">
-          <svg viewBox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-        </div>
-        <div class="btn-payment-info">
-          <div class="btn-payment-name">Google Pay</div>
-          <div class="btn-payment-desc">Paiement rapide depuis vos appareils Android</div>
-        </div>
-        <span class="payment-soon-badge">Bientôt</span>
-      </button>
-
-      <!-- PayPal -->
-      <button class="btn-payment btn-payment-soon" disabled>
-        <div class="btn-payment-icon paypal">
-          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" width="22">
-            <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.59 3.025-2.566 6.082-8.558 6.082h-2.19c-.524 0-.968.382-1.05.9l-1.488 9.441H2.47a.641.641 0 0 1-.634-.74l.167-1.063h5.052c.525 0 .968-.382 1.05-.9l1.488-9.44h2.19c5.049 0 7.798-2.383 8.558-6.082.09-.437.127-.86.11-1.254a3.38 3.38 0 0 0-.229-.657z"/>
-          </svg>
-        </div>
-        <div class="btn-payment-info">
-          <div class="btn-payment-name">PayPal</div>
-          <div class="btn-payment-desc">Compte PayPal ou carte bancaire</div>
-        </div>
-        <span class="payment-soon-badge">Bientôt</span>
+    <!-- Stripe Payment Element -->
+    <div style="padding:1.5rem 2rem 0;">
+      <div id="stripe-payment-element" style="margin-bottom:1.25rem;"></div>
+      <div id="stripe-error" style="display:none;color:#c0392b;font-size:0.78rem;margin-bottom:1rem;padding:10px 14px;background:rgba(192,57,43,0.06);border-left:2px solid #c0392b;"></div>
+      <button id="stripe-submit-btn" onclick="stripeConfirmPayment()" style="width:100%;padding:15px;background:var(--noir);color:white;border:none;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;cursor:pointer;transition:background 0.3s;display:flex;align-items:center;justify-content:center;gap:10px;">
+        <span id="stripe-btn-text">Payer maintenant</span>
+        <span id="stripe-spinner" style="display:none;">⏳</span>
       </button>
     </div>
-    <div class="payment-footer">
-      <p>🔒 Paiements sécurisés par <strong>Stripe</strong> · Vos données bancaires ne transitent jamais par nos serveurs.</p>
+
+    <div class="payment-footer" style="margin-top:1.25rem;">
+      <p>🔒 Paiements sécurisés par <strong>Stripe</strong> · Données bancaires chiffrées SSL</p>
     </div>
+  </div>
+</div>
+
+<!-- Confirmation paiement -->
+<div class="payment-overlay" id="payment-success-overlay" style="display:none;">
+  <div class="payment-box" style="max-width:420px;width:100%;text-align:center;padding:3rem 2rem;">
+    <div style="font-size:3rem;margin-bottom:1rem;">✅</div>
+    <p style="font-size:0.6rem;letter-spacing:0.35em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;">Paiement confirmé</p>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;margin-bottom:1rem;">Merci pour votre commande !</h2>
+    <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.7;margin-bottom:2rem;">Votre paiement a été accepté par Stripe. Vous recevrez un email de confirmation. Nous préparons votre montre avec soin.</p>
+    <button onclick="document.getElementById('payment-success-overlay').style.display='none'" style="padding:13px 32px;background:var(--noir);color:white;border:none;font-family:'Jost',sans-serif;font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;">Fermer</button>
   </div>
 </div>
 
@@ -5075,18 +5045,19 @@ function _doCheckout(phone) {
   }).catch(err => console.warn('EmailJS vendeur erreur:', err));
 
   document.getElementById('payment-total').textContent = totalStr;
-  const revolut = document.getElementById('btn-revolut');
-  revolut.href = `https://revolut.me/ydoridou/${total.toFixed(2)}EUR?reference=${encodeURIComponent('Commande Atelier Horloger: ' + lines)}`;
   closeCart();
-  // Reset upsell for next order
   _upsellShownThisOrder = false;
-  cart = [];
-  saveCart();
-  updateCartCount();
+
+  // Open Stripe payment modal
   document.getElementById('payment-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  initStripePayment(total);
 }
 function closePayment() {
   document.getElementById('payment-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+  stripeElements = null;
+  document.getElementById('stripe-payment-element').innerHTML = '';
 }
 document.addEventListener('click', function(e) {
   if (e.target === document.getElementById('payment-overlay')) closePayment();
@@ -7236,6 +7207,143 @@ function exportNewsletter() {
 
 // Bouton parrainage dans la nav (footer)
 // et bouton dashboard dans l'admin
+
+// ══════════════════════════════════════════════
+// STRIPE PAYMENT
+// ══════════════════════════════════════════════
+const STRIPE_PK = 'pk_live_51TfITsCiLJBIhXFabpKA75GQFKsSqterw8NJRlDyes4D3BVqeOBK5GBUkltBYhqjRcBLCiI2tgraFEKh3XXzMtfi00lIxxhDpF';
+const SUPABASE_FUNCTION_URL = 'https://rucspyhxlybrgduypyzl.supabase.co/functions/v1/create-payment-intent';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ1Y3NweWh4bHlicmdkdXlweXpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzMzg0MjYsImV4cCI6MjA5NTkxNDQyNn0.WeGEgkHbOaIf-0omTHlAYACdwPKXGmBBcN7KQSA_tow';
+
+let stripeInstance = null;
+let stripeElements = null;
+let stripePaymentElement = null;
+let _pendingOrderTotal = 0;
+
+async function initStripePayment(total) {
+  _pendingOrderTotal = total;
+  const errEl = document.getElementById('stripe-error');
+  const elContainer = document.getElementById('stripe-payment-element');
+  const submitBtn = document.getElementById('stripe-submit-btn');
+
+  errEl.style.display = 'none';
+  elContainer.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-muted);font-size:0.8rem;">Chargement du formulaire de paiement…</div>';
+  submitBtn.disabled = true;
+
+  try {
+    // Create PaymentIntent via Supabase Edge Function
+    const resp = await fetch(SUPABASE_FUNCTION_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+      },
+      body: JSON.stringify({
+        amount: total,
+        currency: 'eur',
+        metadata: {
+          items: (window._livraison ? '' : '') + cart.map(i => i.brand + ' ' + i.name + ' x' + (i.qty||1)).join(', '),
+          name: window._livraison?.nom || '',
+          email: window._livraison?.email || ''
+        }
+      })
+    });
+
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+
+    // Init Stripe Elements
+    if (!stripeInstance) stripeInstance = Stripe(STRIPE_PK);
+
+    stripeElements = stripeInstance.elements({
+      clientSecret: data.clientSecret,
+      appearance: {
+        theme: 'stripe',
+        variables: {
+          colorPrimary: '#b8976a',
+          colorBackground: '#fafaf8',
+          colorText: '#1a1a1a',
+          colorDanger: '#c0392b',
+          fontFamily: 'Jost, sans-serif',
+          borderRadius: '0px',
+          spacingUnit: '4px'
+        }
+      }
+    });
+
+    stripePaymentElement = stripeElements.create('payment');
+    elContainer.innerHTML = '';
+    stripePaymentElement.mount('#stripe-payment-element');
+    stripePaymentElement.on('ready', () => { submitBtn.disabled = false; });
+
+  } catch (err) {
+    elContainer.innerHTML = '';
+    errEl.textContent = 'Erreur lors de l\'initialisation du paiement : ' + err.message;
+    errEl.style.display = 'block';
+    submitBtn.disabled = false;
+  }
+}
+
+async function stripeConfirmPayment() {
+  if (!stripeElements) return;
+  const errEl = document.getElementById('stripe-error');
+  const btnText = document.getElementById('stripe-btn-text');
+  const spinner = document.getElementById('stripe-spinner');
+  const submitBtn = document.getElementById('stripe-submit-btn');
+
+  errEl.style.display = 'none';
+  submitBtn.disabled = true;
+  btnText.textContent = 'Traitement en cours…';
+  spinner.style.display = 'inline';
+
+  try {
+    const liv = window._livraison || {};
+    const { error, paymentIntent } = await stripeInstance.confirmPayment({
+      elements: stripeElements,
+      confirmParams: {
+        payment_method_data: {
+          billing_details: {
+            name: liv.nom || '',
+            email: liv.email || '',
+            phone: liv.tel || '',
+            address: {
+              line1: liv.adresse || '',
+              city: liv.ville || '',
+              postal_code: liv.cp || '',
+              country: (liv.pays || 'FR').substring(0,2).toUpperCase()
+            }
+          }
+        }
+      },
+      redirect: 'if_required'
+    });
+
+    if (error) {
+      errEl.textContent = error.message;
+      errEl.style.display = 'block';
+      submitBtn.disabled = false;
+      btnText.textContent = 'Payer maintenant';
+      spinner.style.display = 'none';
+    } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+      // Payment success
+      closePayment();
+      cart = [];
+      saveCart();
+      updateCartCount();
+      window._livraison = null;
+      document.getElementById('payment-success-overlay').style.display = 'flex';
+      showToast({ icon:'✅', title:'Paiement accepté !', message:'Votre commande est confirmée. Un email de confirmation vous a été envoyé.', duration:7000 });
+    }
+  } catch (err) {
+    errEl.textContent = 'Une erreur est survenue : ' + err.message;
+    errEl.style.display = 'block';
+    submitBtn.disabled = false;
+    btnText.textContent = 'Payer maintenant';
+    spinner.style.display = 'none';
+  }
+}
+
 </script>
 
 </body>
