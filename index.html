@@ -4778,7 +4778,7 @@ function addToCart(watchId) {
   if (!w) return;
   const existing = cart.find(i => i.id === watchId && i.type === 'watch');
   if (existing) { existing.qty = (existing.qty || 1) + 1; }
-  else { cart.push({ id: watchId, type: 'watch', brand: w.brand, name: w.name, price: Number(w.price), img: w.img || '', qty: 1 }); }
+  else { cart.push({ id: watchId, type: 'watch', brand: w.brand, name: w.name, price: parseFloat(w.price) || 0, img: w.img || '', qty: 1 }); }
   saveCart();
   updateCartCount();
   openUpsell(w);
@@ -4798,7 +4798,7 @@ function buyNowFromModal() {
   // Add to cart if not already there
   const existing = cart.find(i => i.id === currentModalWatchId && i.type === 'watch');
   if (!existing) {
-    cart.push({ id: currentModalWatchId, type: 'watch', brand: w.brand, name: w.name, price: Number(w.price), img: w.img || '', qty: 1 });
+    cart.push({ id: currentModalWatchId, type: 'watch', brand: w.brand, name: w.name, price: parseFloat(w.price) || 0, img: w.img || '', qty: 1 });
     saveCart();
     updateCartCount();
   }
@@ -4999,7 +4999,7 @@ function skipPhoneAndPay() {
 }
 
 function _doCheckout(phone) {
-  const subtotal = cart.reduce((s, i) => s + i.price * (i.qty || 1), 0);
+  const subtotal = cart.reduce((s, i) => s + parseFloat(i.price) * (i.qty || 1), 0);
   let total = subtotal;
   if (activePromo) {
     const disc = computeDiscount(activePromo, subtotal);
@@ -7302,6 +7302,7 @@ async function stripeConfirmPayment() {
     const { error, paymentIntent } = await stripeInstance.confirmPayment({
       elements: stripeElements,
       confirmParams: {
+        return_url: window.location.href.split('?')[0] + '?payment=success',
         payment_method_data: {
           billing_details: {
             name: liv.nom || '',
@@ -7343,6 +7344,22 @@ async function stripeConfirmPayment() {
     spinner.style.display = 'none';
   }
 }
+
+
+// ── Détection retour après paiement Revolut/redirect ──
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('payment') === 'success') {
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('payment-success-overlay').style.display = 'flex';
+        showToast({ icon:'✅', title:'Paiement accepté !', message:'Votre commande est confirmée. Merci pour votre achat !', duration:7000 });
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }, 800);
+    });
+  }
+})();
 
 </script>
 
